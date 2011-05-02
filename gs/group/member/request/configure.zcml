@@ -3,14 +3,21 @@
   xmlns:browser="http://namespaces.zope.org/browser"
   xmlns:five="http://namespaces.zope.org/five"
   i18n_domain="groupserver">
-  
+
+  <browser:page 
+    for="Products.XWFChat.interfaces.IGSGroupFolder" 
+    name="request.html"
+    class=".request.RequestForm"
+    permission="zope2.View" />
+
+  <!-- The HTML and TXT form of the Request Membership message that is
+     - sent to the administrator. -->  
   <browser:page 
     for="Products.XWFChat.interfaces.IGSGroupFolder" 
     name="request_message.html"
     class=".mesg.RequestMessage"
     template="browser/templates/mesg_html.pt"
     permission="zope2.View" />
-
   <browser:page 
     for="Products.XWFChat.interfaces.IGSGroupFolder" 
     name="request_message.txt"
