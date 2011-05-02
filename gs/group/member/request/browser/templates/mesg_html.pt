@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Request to join Your Group</title>
+  </head>
+  <body>
+    <p>
+      Hi <span class="fn">there</span>,
+    </p>
+    <p>
+      <span class="fn">A person</span> has requested membership of
+      <span class="group">your group</span>.
+      <span class="fn">A person</span> wrote the following message, to 
+      explain why you should grant group-membership.
+    </p>
+    <blockquote>
+      <p>
+        <strong>From:</strong>
+        <code class="email">some.email.address.com</code>
+      </p>
+      <pre>
+        I am awesome
+      </pre>
+    </blockquote>
+    <p>
+      To accept or delcine the request go to the 
+      <a href="#">Response page</a> in 
+      <span class="group">your group</span>.
+    </p>
+  </body>
+</html>
