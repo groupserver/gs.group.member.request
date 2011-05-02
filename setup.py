@@ -32,7 +32,7 @@ setup(name='gs.group.member.request',
     zip_safe=True,
     install_requires=[
         'setuptools',
-        'gs.group.member.base',
+        'gs.group.base',
         # -*- Extra requirements: -*-
     ],
     entry_points="""

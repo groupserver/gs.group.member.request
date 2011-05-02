@@ -7,10 +7,10 @@
       Hi <span class="fn">there</span>,
     </p>
     <p>
-      <span class="fn">A person</span> has requested membership of
-      <span class="group">your group</span>.
-      <span class="fn">A person</span> wrote the following message, to 
-      explain why you should grant group-membership.
+      <a href="#" class="fn">A person</a> has requested membership of
+      <a href="#" class="group">your group</a>.
+      <span class="fn">A person</span> wrote the following message as 
+      part of the request.
     </p>
     <blockquote>
       <p>
@@ -18,13 +18,15 @@
         <code class="email">some.email.address.com</code>
       </p>
       <pre>
-        I am awesome
+I am awesome
       </pre>
     </blockquote>
     <p>
-      To accept or delcine the request go to the 
-      <a href="#">Response page</a> in 
-      <span class="group">your group</span>.
+      Go to the 
+      <a href="#">response page</a> 
+      in 
+      <span class="group">your group</span>
+      to accept or delcine the request.
     </p>
   </body>
 </html>

@@ -1,16 +1,13 @@
 Hi there,
 
 <tal:block>A person</tal:block> has requested membership of
-<tal:block>your group<tal:block>. <tal:block>A person</tal:block> 
-wrote the following message, to explain why you should grant group
-membership.
+<tal:block>your group</tal:block>. <tal:block>A person</tal:block> 
+wrote the following message as part of the request.
 
   From: <tal:block>some.email.address.com</tal:block>
-
   <tal:block>
-    I am awesome
+  I am awesome
   </tal:block>
-
 To accept or delcine the request go to the Response page
   <tal:block>http://some.group/address/</tal:block>
 
