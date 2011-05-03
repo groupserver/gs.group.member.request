@@ -1,31 +1,42 @@
 <html>
   <head>
-    <title>Request to join Your Group</title>
+    <title>Request to join 
+      <tal:block replace="view/groupInfo/name">A Group</tal:block></title>
   </head>
   <body>
     <p>
-      Hi <span class="fn">there</span>,
+      Hi
+      <span class="fn"
+        tal:content="view/adminInfo/name">there</span>,
     </p>
     <p>
-      <a href="#" class="fn">A person</a> has requested membership of
-      <a href="#" class="group">your group</a>.
-      <span class="fn">A person</span> wrote the following message as 
-      part of the request.
+      <a href="#" class="fn"
+        tal:attributes="href view/userInfo/url"
+        tal:content="view/userInfo/name">A person</a> has requested membership of
+      <a href="#" class="group"
+        tal:attributes="href view/groupInfo/url"
+        tal:content="view/groupInfo/name">your group</a>.
+      <span class="fn"
+        tal:content="view/userInfo/name">A person</span> wrote the
+      following message as part of the request.
     </p>
     <blockquote>
       <p>
         <strong>From:</strong>
-        <code class="email">some.email.address.com</code>
+        <a href="#" tal:attributes="href view/mailto"><code class="email" 
+            tal:content="view/email">some.email@address.com</code></a>
       </p>
-      <pre>
+      <pre tal:content="view/mesg">
 I am awesome
       </pre>
     </blockquote>
     <p>
       Go to the 
-      <a href="#">response page</a> 
+      <a tal:attributes="href string:${view/groupInfo/url}/admin_response.html"
+         href="#">response page</a>
       in 
-      <span class="group">your group</span>
+      <span class="group"
+        tal:content="view/groupInfo/name">your group</span>
       to accept or delcine the request.
     </p>
   </body>
