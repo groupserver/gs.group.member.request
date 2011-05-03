@@ -1,13 +1,15 @@
-Hi there,
+Hi <tal:block replace="view/adminInfo/name">there</tal:block>,
 
-<tal:block>A person</tal:block> has requested membership of
-<tal:block>your group</tal:block>. <tal:block>A person</tal:block> 
+<tal:block replace="view/userInfo/name">A person</tal:block> has requested membership of
+<tal:block replace="view/groupInfo/name">your group</tal:block>. <tal:block replace="view/userInfo/name">A person</tal:block> 
 wrote the following message as part of the request.
 
-  From: <tal:block>some.email.address.com</tal:block>
-  <tal:block>
+  From: <tal:block replace="view/email">some.email.address.com</tal:block>
+
+  <tal:block tal:replace="view/mesg">
   I am awesome
   </tal:block>
+  
 To accept or delcine the request go to the Response page
-  <tal:block>http://some.group/address/</tal:block>
+  <tal:block replace="string:${view/groupInfo/url}/admin_response.html">http://some.group/address/</tal:block>
 
