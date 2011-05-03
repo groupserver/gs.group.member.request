@@ -33,6 +33,8 @@ setup(name='gs.group.member.request',
     install_requires=[
         'setuptools',
         'gs.group.base',
+        'gs.content.form',
+        'gs.profile.email.base',
         # -*- Extra requirements: -*-
     ],
     entry_points="""
