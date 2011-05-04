@@ -1,4 +1,5 @@
 # coding=utf-8
+import md5
 from email.Message import Message
 from email.Header import Header
 from email.MIMEText import MIMEText
@@ -10,9 +11,11 @@ from zope.cachedescriptors.property import Lazy
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.XWFCore.XWFUtils import convert_int2b62
 from gs.group.base.form import GroupForm
 from gs.profile.email.base.emailuser import EmailUser
 from interfaces import IGSRequestMembership
+from queries import RequestQuery
 utf8 = 'utf-8'
 
 class RequestForm(GroupForm):
@@ -27,6 +30,13 @@ class RequestForm(GroupForm):
     @Lazy
     def userInfo(self):
         retval = createObject('groupserver.LoggedInUser', self.context)
+        return retval
+
+    @Lazy
+    def requestQuery(self):
+        da = self.context.zsqlalchemy
+        assert da
+        retval = RequestQuery(self.context, da)
         return retval
 
     def setUpWidgets(self, ignore_request=False):
@@ -56,11 +66,33 @@ class RequestForm(GroupForm):
     @form.action(label=_('Request'), failure='handle_failure')
     def handle_request(self, action, data):
         self.status = u''
+        requestId = self.create_request_id(data['fromAddress'], data['message'])
+        self.requestQuery.add_request(requestId, self.userInfo.id, 
+            data['message'], self.siteInfo.id, self.groupInfo.id)
+        msg  = self.create_message(data['fromAddress'], data['message'])
+        
+        l = '<a href="%s">%s</a>. ' % (self.groupInfo.url, 
+                                        self.groupInfo.name)
+        self.status = _(u'You have requested membership of ') + l +\
+            _(u'You will be contacted by the group administator when '\
+                u'your request is considered.')
 
+
+    def create_request_id(self, fromAddress, message):
+        istr = fromAddress + message + self.userInfo.id + \
+            self.userInfo.name + self.groupInfo.id + \
+            self.groupInfo.name + self.siteInfo.id + self.siteInfo.name
+        inum = long(md5.new(istr).hexdigest(), 16)
+        retval = str(convert_int2b62(inum))
+        assert retval
+        assert type(retval) == str
+        return retval
+
+    def create_message(self, fromAddress, message):
         container = MIMEMultipart('alternative')
         subject = _(u'Request to Join ') + self.groupInfo.name
         container['Subject'] = str(Header(subject, utf8))
-        fromAddr = formataddr((self.userInfo.name, data['fromAddress']))
+        fromAddr = formataddr((self.userInfo.name, fromAddress))
         container['From'] = fromAddr
         # TODO: To
         toAddr = formataddr(('You', 'mpj17@groupsense.net'))
@@ -73,7 +105,7 @@ class RequestForm(GroupForm):
         newRequest.form['adminId'] = '6wqOHuEKAVClbmHaIuqYWF'
         newRequest.form['userId'] = self.userInfo.id
         newRequest.form['email'] = 'mpj17@groupsense.net'
-        newRequest.form['mesg'] = data['message']
+        newRequest.form['mesg'] = message
         
         t = getMultiAdapter((self.context, newRequest),
                             name="request_message.txt")()
@@ -84,8 +116,10 @@ class RequestForm(GroupForm):
                             name="request_message.html")()
         html = MIMEText(h.encode(utf8), 'html', utf8)   
         container.attach(html)
-        
-        print container.as_string()
+
+        retval = container.as_string()
+        print retval
+        return retval
 
     def handle_failure(self, action, data, errors):
         if len(errors) == 1:

@@ -8,8 +8,9 @@ CREATE TABLE user_group_member_request (
   site_id             TEXT                      NOT NULL,
   group_id            TEXT                      NOT NULL,
   request_date        TIMESTAMP WITH TIME ZONE  NOT NULL,
+  message             TEXT,
   responding_user_id  TEXT,
-  response_date       TIMESTAMP WITH TIME ZONE  NOT NULL,
+  response_date       TIMESTAMP WITH TIME ZONE,
   accepted            BOOLEAN
 );
 
