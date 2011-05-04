@@ -1,13 +1,10 @@
 # coding=utf-8
-from operator import and_
 import sqlalchemy as sa
 from datetime import datetime
 from pytz import UTC
 
 class RequestQuery(object):
-    def __init__(self, context, da):
-        self.context = context
-        
+    def __init__(self, da):
         self.requestTable = da.createTable('user_group_member_request')
 
     def add_request(self, requestId, userId, message, siteId, groupId):
@@ -29,4 +26,21 @@ class RequestQuery(object):
         now = datetime.now(UTC)
         u.execute(  responding_user_id = userId, response_date=now, 
                     accepted = response)
+
+    def current_requests(self, groupId, siteId):
+        s = self.requestTable.select()
+        s.append_whereclause(self.requestTable.c.group_id == groupId)
+        s.append_whereclause(self.requestTable.c.site_id == siteId)
+        
+        r = s.execute()
+        retval = []
+        if r.rowcount >= 1:
+            retval = [
+                {
+                    'request_id':   x['request_id'],
+                    'user_id':      x['user_id'],
+                    'request_date': x['request_date'],
+                    'message':      x['message'],
+                } for x in r]
+        return retval
 

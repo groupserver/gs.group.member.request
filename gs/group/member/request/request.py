@@ -36,7 +36,7 @@ class RequestForm(GroupForm):
     def requestQuery(self):
         da = self.context.zsqlalchemy
         assert da
-        retval = RequestQuery(self.context, da)
+        retval = RequestQuery(da)
         return retval
 
     def setUpWidgets(self, ignore_request=False):

@@ -1,67 +1,78 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:tal="http://xml.zope.org/namespaces/tal"
   xmlns:metal="http://xml.zope.org/namespaces/metal"
-  metal:use-macro="context/@@groupserver_site_home_layout/page">
+  metal:use-macro="context/@@groupserver_layout/page">
   <head>
-    <title metal:fill-slot="title"
-      tal:define="ad view/invitation/invite/accepted;
-        Accepted python:ad and 'Accepted' or 'Declined';">Invitation
-      <tal:block content="Accepted">Accepted</tal:block>:
-      <tal:block replace="view/siteInfo/name">A Site</tal:block></title>
+    <title metal:fill-slot="title">
+      Respond to Membership Requests:
+      <span tal:replace="view/groupInfo/name">A User</span>:
+      <span tal:replace="view/siteInfo/name">A Site</span>
+    </title>
   </head>
   <body>
-    <div metal:fill-slot="utilitylinks">&#160;</div>
-    <div metal:fill-slot="sitenavigation">&#160;</div>
-    <div metal:fill-slot="search">&#160;</div>
-    <tal:block metal:fill-slot="body"
-      tal:define="ad view/invitation/invite/accepted;
-        accepted python:ad and 'accepted' or 'declined';
-        Accepted python:ad and 'Accepted' or 'Declined';">
-      <h1>Invitation
-        <tal:block content="Accepted">Accepted</tal:block>
-      </h1>
-      <p>
-        Your invitation to join
-        <span class="group"
-          tal:content="view/invitation/groupInfo/name">a group</span>
-        has already been 
-        <span class="response" tal:content="accepted">accepted</span>.
-        <span id="go-to-group" tal:condition="ad">
-          Go to
-          <a href="#" class="group"
-            tal:attributes="href view/invitation/groupInfo/url">the
-            homepage for 
-            <span class="group"
-              tal:content="view/invitation/groupInfo/name">a group</span></a>.
-          There you should <strong>bookmark</strong> the page (add it to
-          your <em>favourites</em>) so you can quickly and easily visit
-          the group again.
-        </span><!--got-to-group-->
-        <span id="respond-to-invite" tal:condition="not:ad">
-          Ask 
-          <span class="fn" 
-            tal:content="view/invitation/adminInfo/name">the 
-            administrator</span>
-          for another invitation if you want to participate in
-          <span class="group"
-            tal:content="view/invitation/groupInfo/name">a 
-              group</span>.
-        </span><!--respond-to-invite-->
+    <!-- tal:block content="structure provider:groupserver.FormStatusMessage"
+      define="errors view/errors; status view/status; widgets view/widgets"
+      metal:fill-slot="messages">&#160;</tal:block-->
+    <div metal:fill-slot="messages"
+      tal:define="result view/process_form;
+        isError python:result.get('error', False);"
+      tal:condition="python:result and result.has_key('message')"
+      tal:attributes="class python:(isError and 'message-error') or 'message-result'"
+      tal:content="structure result/message"/>
+    <div metal:fill-slot="body" id="gs-group-member-request-respond"
+      tal:define="ctx view/context;
+        md python:modules['Products.XWFCore.XWFUtils'].munge_date;">
+      <h1>Respond to Membership Requests</h1>
+      <form id="action" 
+        tal:condition="view/requests"
+        enctype="multipart/form-data" method="post" action="." 
+        tal:attributes="action request/URL">
+        <p>Stuff</p>
+        <div class="user-request" 
+          tal:repeat="request view/requests">
+          <h2 class="fn" 
+            tal:attributes="id string:user-${request/userInfo/id}"
+            tal:content="request/userInfo/name">
+            The Applicant
+          </h2>
+          <fieldset tal:define="uid request/userInfo/id">
+            <div class="radioItem">
+              <input type="radio" checked="" 
+                value="accept" class="radioType"
+                name="foo" id="foo-accept" 
+                tal:attributes="name string:${uid}-respond;
+                  id string:${uid}-accept;
+                  value string:${uid}-accept"/> 
+              <label class="radioLabel" id="foo-accept-label"
+                for="foo-accept" 
+                tal:attributes="id string:${uid}-accept-label;
+                  for string:${uid}-accept">Accept the request to join
+                  <span class="group"
+                    tal:content="view/groupInfo/name">this group</span></label>
+            </div>
+            <div class="radioItem">
+              <input type="radio" class="radioType"
+                name="foo" id="foo-decline"
+                tal:attributes="name string:${uid}-respond;
+                  id string:${uid}-decline;
+                  value string:${uid}-decline"/> 
+              <label class="radioLabel" id="foo-decline-label"
+                for="foo-decline" 
+                tal:attributes="id string:${uid}-decline-label;
+                  for string:${uid}-decline">Decline the request to join
+                  <span class="group"
+                    tal:content="view/groupInfo/name">this group</span></label>
+            </div>
+          </fieldset>
+        </div><!--user-request-->
+        <input type="hidden" class="hidden" name="submitted" value=""/>
+        <input class="button" type="submit" value="Respond" 
+          id="respond-button" name="respond-button"/>
+      </form><!--current-->
+      <p tal:condition="not:view/requests">
+        There are no membership requests awaiting your response.
       </p>
-      <p
-        tal:define="siteId view/siteInfo/id;
-          gse python:modules['Products.XWFCore.XWFUtils'].get_support_email;
-          supportEmail python:gse(context,siteId);">If you are still
-        having trouble 
-        <a href="#" 
-          tal:define="m string:Hi! I used the invitation ${view/siteInfo/url}/r/rsvp/${view/invitationId} and...;
-        msg python:view.quote(m)"
-          tal:attributes="href string:mailto:${supportEmail}?Subject=Group%20Membership%20Invitation&amp;body=${msg}">email
-            support</a> 
-        with the specifics of your problem, and we will see what we
-        can do to help.
-      </p>
-    </tal:block>
+    </div><!--gs-group-member-request-respond-->
   </body>
 </html>
 

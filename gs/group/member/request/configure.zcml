@@ -25,5 +25,12 @@
     template="browser/templates/mesg.pt"
     permission="zope2.View" />
 
+  <browser:page 
+    for="Products.XWFChat.interfaces.IGSGroupFolder" 
+    name="respond.html"
+    class=".respond.Respond"
+    template="browser/templates/respond.pt"
+    permission="zope2.ManageUsers" />
+
 </configure>
 
