@@ -49,9 +49,9 @@ class Respond(GroupPage):
         form = self.context.REQUEST.form
         result = {}
         result['form'] = form
-
+        m = u''
         if form.has_key('submitted'):
-            userIds = [k.split('-respond') for k in form.keys()
+            userIds = [k.split('-respond')[0] for k in form.keys()
                 if '-respond' in k]
             responses = [form['%s-respond' % k] for k in userIds]
 
@@ -61,7 +61,8 @@ class Respond(GroupPage):
             accepted = [k.split('-accept')[0] for k in responses
               if '-accept' in k]
             if accepted:
-                pass # TODO
+                m = m + (u'Should accept request from %s' % accepted)
+                # TODO
 
             declined = [k.split('-decline')[0] for k in responses 
                         if '-decline' in k]
@@ -70,7 +71,7 @@ class Respond(GroupPage):
             if declined:
                 pass # TODO
 
-            result['message'] = u'I am a fish'
+            result['message'] = m
 
             assert result.has_key('error')
             assert type(result['error']) == bool
