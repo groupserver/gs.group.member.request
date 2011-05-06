@@ -31,16 +31,20 @@ class RequestQuery(object):
         s = self.requestTable.select()
         s.append_whereclause(self.requestTable.c.group_id == groupId)
         s.append_whereclause(self.requestTable.c.site_id == siteId)
-        
+        s.append_whereclause(self.requestTable.c.response_date == None)
+        s.order_by(sa.desc(self.requestTable.c.request_date))
+
         r = s.execute()
         retval = []
+        seen = set()
         if r.rowcount >= 1:
-            retval = [
-                {
-                    'request_id':   x['request_id'],
-                    'user_id':      x['user_id'],
-                    'request_date': x['request_date'],
-                    'message':      x['message'],
-                } for x in r]
+            for x in r:
+                if x['user_id'] not in seen:
+                    seen.add(x['user_id'])
+                    rd = {  'request_id':   x['request_id'],
+                            'user_id':      x['user_id'],
+                            'request_date': x['request_date'],
+                            'message':      x['message']} 
+                    retval.append(rd)
         return retval
 
