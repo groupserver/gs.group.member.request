@@ -1,5 +1,7 @@
 # coding=utf-8
 import md5
+from datetime import datetime
+from pytz import UTC
 from email.Message import Message
 from email.Header import Header
 from email.MIMEText import MIMEText
@@ -16,6 +18,7 @@ from gs.group.base.form import GroupForm
 from gs.profile.email.base.emailuser import EmailUser
 from interfaces import IGSRequestMembership
 from queries import RequestQuery
+from audit import REQUEST, RequestAuditor
 utf8 = 'utf-8'
 
 class RequestForm(GroupForm):
@@ -70,7 +73,10 @@ class RequestForm(GroupForm):
         self.requestQuery.add_request(requestId, self.userInfo.id, 
             data['message'], self.siteInfo.id, self.groupInfo.id)
         msg  = self.create_message(data['fromAddress'], data['message'])
-        
+
+        ra = RequestAuditor(self.context, self.groupInfo, self.siteInfo)
+        ra.info(self.userInfo)
+
         l = '<a href="%s">%s</a>. ' % (self.groupInfo.url, 
                                         self.groupInfo.name)
         self.status = _(u'You have requested membership of ') + l +\
@@ -80,8 +86,9 @@ class RequestForm(GroupForm):
 
     def create_request_id(self, fromAddress, message):
         istr = fromAddress + message + self.userInfo.id + \
-            self.userInfo.name + self.groupInfo.id + \
-            self.groupInfo.name + self.siteInfo.id + self.siteInfo.name
+            str(datetime.now(UTC)) + self.userInfo.name + \
+            self.groupInfo.id + self.groupInfo.name + \
+            self.siteInfo.id + self.siteInfo.name
         inum = long(md5.new(istr).hexdigest(), 16)
         retval = str(convert_int2b62(inum))
         assert retval
