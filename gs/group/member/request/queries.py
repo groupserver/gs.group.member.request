@@ -1,4 +1,5 @@
 # coding=utf-8
+from operator import and_
 import sqlalchemy as sa
 from datetime import datetime
 from pytz import UTC
@@ -14,17 +15,19 @@ class RequestQuery(object):
                     message = message, site_id = siteId, 
                     group_id = groupId, request_date = now)
         
-    def reject_request(self, requestId, userId):
-        self.update_request(requestId, userId, False)
+    def decline_request(self, userId, groupId, adminId):
+        self.update_request(userId, groupId, adminId, False)
 
-    def accept_request(self, requestId, userId):
-        self.update_request(requestId, userId, True)
+    def accept_request(self, userId, groupId, adminId):
+        self.update_request(userId, groupId, adminId, True)
 
-    def update_request(self, requestId, userId, response):
-        c = self.requestTable.c.request_id
-        u = self.requestTable.update(c == requestId)
+    def update_request(self, userId, groupId, adminId, response):
+        u = self.requestTable.update(and_(and_(
+                self.requestTable.c.user_id == userId,
+                self.requestTable.c.group_id == groupId),
+                self.requestTable.c.response_date == None))
         now = datetime.now(UTC)
-        u.execute(  responding_user_id = userId, response_date=now, 
+        u.execute(  responding_user_id = adminId, response_date=now, 
                     accepted = response)
 
     def current_requests(self, groupId, siteId):

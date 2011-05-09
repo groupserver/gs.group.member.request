@@ -3,6 +3,7 @@ from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
 from gs.group.base.page import GroupPage
 from queries import RequestQuery
+from acceptor import Acceptor
 
 class Respond(GroupPage):
     def __init__(self, group, request):
@@ -23,6 +24,12 @@ class Respond(GroupPage):
                             r['message'])
                     for r in rd]
         assert type(retval) == list
+        return retval
+
+    @Lazy
+    def adminInfo(self):
+        retval = createObject('groupserver.LoggedInUser', self.context)
+        assert not(retval.anonymous)
         return retval
 
     def process_form(self):
@@ -57,19 +64,22 @@ class Respond(GroupPage):
 
             result['error'] = False            
             acceptedMessage = declinedMessage = u''
+            acceptor = Acceptor(self.adminInfo, self.groupInfo)
 
             accepted = [k.split('-accept')[0] for k in responses
               if '-accept' in k]
             if accepted:
                 m = m + (u'Should accept request from %s' % accepted)
-                # TODO
+                for uid in accepted:
+                    acceptor.accept(uid)
 
             declined = [k.split('-decline')[0] for k in responses 
                         if '-decline' in k]
             for d in declined:
                 assert d not in accepted
             if declined:
-                pass # TODO
+                for uid in declined:
+                    acceptor.decline(uid)
 
             result['message'] = m
 
