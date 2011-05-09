@@ -15,9 +15,10 @@
       metal:fill-slot="messages">&#160;</tal:block-->
     <div metal:fill-slot="messages"
       tal:define="result view/process_form;
-        isError python:result.get('error', False);"
+        isError python:result.get('error', False);
+        c python:(isError and 'message-error') or 'message-result';"
       tal:condition="python:result and result.has_key('message')"
-      tal:attributes="class python:(isError and 'message-error') or 'message-result'"
+      tal:attributes="class string:${c} ui-state-highlight ui-corner-all"
       tal:content="structure result/message"/>
     <div metal:fill-slot="body" id="gs-group-member-request-respond"
       tal:define="ctx view/context;
@@ -27,7 +28,16 @@
         tal:condition="view/requests"
         enctype="multipart/form-data" method="post" action="." 
         tal:attributes="action request/URL">
-        <p>Stuff</p>
+        <p tal:condition="python:len(view.requests)>1">
+          To respond to the requests select <samp>Accept</samp> or
+          <samp>Decline</samp> for each person below and click the
+          <samp class="button">Respond</samp> button.
+        </p>
+        <p tal:condition="python:len(view.requests)==1">
+          To respond to the request select <samp>Accept</samp>
+          or <samp>Decline</samp> and click the <samp
+          class="button">Respond</samp> button.
+        </p>
         <div class="user-request" 
           tal:repeat="request view/requests">
           <h2 class="fn" 
@@ -70,7 +80,10 @@
           id="respond-button" name="respond-button"/>
       </form><!--current-->
       <p tal:condition="not:view/requests">
-        There are no membership requests awaiting your response.
+        There are no requests to join
+        <a class="group"
+          tal:attributes="href view/groupInfo/relativeURL"
+          tal:content="view/groupInfo/name">this group</a>.
       </p>
     </div><!--gs-group-member-request-respond-->
   </body>

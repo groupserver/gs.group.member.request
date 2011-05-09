@@ -69,9 +69,8 @@ class Respond(GroupPage):
             accepted = [k.split('-accept')[0] for k in responses
               if '-accept' in k]
             if accepted:
-                m = m + (u'Should accept request from %s' % accepted)
                 for uid in accepted:
-                    acceptor.accept(uid)
+                    m = m + (u'<li>%s</li>\n' % acceptor.accept(uid))
 
             declined = [k.split('-decline')[0] for k in responses 
                         if '-decline' in k]
@@ -79,9 +78,9 @@ class Respond(GroupPage):
                 assert d not in accepted
             if declined:
                 for uid in declined:
-                    acceptor.decline(uid)
+                    m = m + (u'<li>%s</li>\n' % acceptor.decline(uid))
 
-            result['message'] = m
+            result['message'] = u'<ul>\n%s</ul>' % m
 
             assert result.has_key('error')
             assert type(result['error']) == bool
