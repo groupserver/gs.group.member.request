@@ -47,6 +47,10 @@
     template="browser/templates/decline.pt"
     permission="zope2.View" />
 
+  <utility
+    factory=".audit.AuditFactory"
+    name="gs.group.member.request"
+    permission="zope.Public" />
 
 </configure>
 

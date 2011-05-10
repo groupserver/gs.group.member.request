@@ -4,6 +4,7 @@ from datetime import datetime
 from zope.component.interfaces import IFactory
 from zope.cachedescriptors.property import Lazy
 from zope.interface import implements, implementedBy
+from Products.XWFCore.XWFUtils import munge_date
 from Products.GSAuditTrail import IAuditEvent, BasicAuditEvent, AuditQuery
 from Products.GSAuditTrail.utils import event_id_from_data
 
