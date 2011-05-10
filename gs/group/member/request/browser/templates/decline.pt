@@ -1,0 +1,7 @@
+Hi <tal:block replace="view/userInfo/name">Applicant</tal:block>,
+
+I am sorry but I have declined your request to join <tal:block replace="view/groupInfo/name">your group</tal:block>.
+
+Kind regards,
+  <tal:block replace="view/userInfo/name">The Admin</tal:block>
+

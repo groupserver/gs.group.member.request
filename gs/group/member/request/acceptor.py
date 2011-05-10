@@ -26,6 +26,6 @@ class Acceptor(object):
 
     def decline(self, userInfo):
         self.requestQuery.decline_request(userInfo.id, self.groupInfo.id,
-            self.adminInfo.id)        
+            self.adminInfo.id)
         return u'Declined the request from %s' % userInfo_to_anchor(userInfo)
 

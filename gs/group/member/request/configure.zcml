@@ -32,5 +32,21 @@
     template="browser/templates/respond.pt"
     permission="zope2.ManageUsers" />
 
+  <!-- The HTML and TXT form of the Decline message that is
+     - sent from the administrator. -->  
+  <browser:page 
+    for="Products.XWFChat.interfaces.IGSGroupFolder" 
+    name="decline_message.html"
+    class=".mesg.RequestMessage"
+    template="browser/templates/decline_html.pt"
+    permission="zope2.View" />
+  <browser:page 
+    for="Products.XWFChat.interfaces.IGSGroupFolder" 
+    name="decline_message.txt"
+    class=".mesg.RequestMessage"
+    template="browser/templates/decline.pt"
+    permission="zope2.View" />
+
+
 </configure>
 

@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Request to join 
+      <tal:block replace="view/groupInfo/name">A Group</tal:block> 
+      Declined</title>
+  </head>
+  <body>
+    <p>
+      Hi <span class="fn" tal:content="view/userInfo/name">Applicant</span>,
+    </p>
+    <p>
+      I am sorry but I have declined your request to join 
+      <a href="#" 
+        tal:attributes="href view/groupInfo/url"
+        tal:content="view/groupInfo/name">your group</a>.
+    </p>
+    <p>
+      Kind regards,<br/>
+      &#160;&#160;<a tal:attributes="href view/adminInfo/url"
+        tal:content="view/adminInfo/name">The Admin</a>
+    </p>
+  </body>
+</html>
+

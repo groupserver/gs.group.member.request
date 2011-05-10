@@ -1,12 +1,21 @@
 # coding=utf-8
 from textwrap import TextWrapper
+from email.Message import Message
+from email.Header import Header
+from email.MIMEText import MIMEText
+from email.MIMEMultipart import MIMEMultipart
+from email.utils import formataddr
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory('groupserver')
 from zope.cachedescriptors.property import Lazy
-from zope.component import createObject
+from zope.component import createObject, getMultiAdapter
+from Products.XWFCore.XWFUtils import get_support_email
 from gs.group.base.page import GroupPage
 from gs.profile.email.base.emailuser import EmailUser
 from queries import RequestQuery
 from acceptor import Acceptor
 from audit import ResponseAuditor, ACCEPT, DECLINE
+utf8 = 'utf-8'
 
 class Respond(GroupPage):
     def __init__(self, group, request):
@@ -91,7 +100,7 @@ class Respond(GroupPage):
                                             self.context, uid)
                     m = m + (u'<li>%s</li>\n' % acceptor.decline(userInfo))
                     auditor.info(DECLINE, userInfo)
-
+                    self.create_decline_message(userInfo)
             result['message'] = u'<ul>\n%s</ul>' % m
 
             assert result.has_key('error')
@@ -102,6 +111,38 @@ class Respond(GroupPage):
         assert result.has_key('form')
         assert type(result['form']) == dict
         return result
+        
+    def create_decline_message(self, userInfo):
+        container = MIMEMultipart('alternative')
+        subject = _(u'Request to Join ') + self.groupInfo.name
+        container['Subject'] = str(Header(subject, utf8))
+        supportAddress = get_support_email(self.context, self.siteInfo.id)
+        fromAddr = formataddr(('%s Support' % self.siteInfo.name, 
+                                supportAddress))
+        container['From'] = fromAddr
+        # TODO: To
+        toAddr = formataddr(('You', 'mpj17@groupsense.net'))
+        container['To'] = toAddr
+
+        newRequest = self.request
+        newRequest.form['adminId'] = self.adminInfo.id
+        newRequest.form['userId'] = userInfo.id
+        newRequest.form['email'] = ''
+        newRequest.form['mesg'] = ''
+        
+        t = getMultiAdapter((self.context, newRequest),
+                            name="decline_message.txt")()
+        txt = MIMEText(t.encode(utf8), 'plain', utf8)   
+        container.attach(txt)
+
+        h = getMultiAdapter((self.context, newRequest),
+                            name="decline_message.html")()
+        html = MIMEText(h.encode(utf8), 'html', utf8)   
+        container.attach(html)
+
+        retval = container.as_string()
+        print retval
+        return retval
 
 class Request(object):
     email_wrapper = TextWrapper(width=72, expand_tabs=False, 
