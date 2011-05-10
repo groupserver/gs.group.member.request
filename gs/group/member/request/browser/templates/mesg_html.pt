@@ -32,7 +32,7 @@ I am awesome
     </blockquote>
     <p>
       Go to the 
-      <a tal:attributes="href string:${view/groupInfo/url}/admin_response.html"
+      <a tal:attributes="href string:${view/groupInfo/url}/respond.html"
          href="#">response page</a>
       in 
       <span class="group"

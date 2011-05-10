@@ -11,5 +11,5 @@ wrote the following message as part of the request.
   </tal:block>
   
 To accept or delcine the request go to the Response page
-  <tal:block replace="string:${view/groupInfo/url}/admin_response.html">http://some.group/address/</tal:block>
+  <tal:block replace="string:${view/groupInfo/url}/respond.html">http://some.group/address/</tal:block>
 
