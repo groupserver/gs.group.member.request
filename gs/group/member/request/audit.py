@@ -30,7 +30,7 @@ class AuditFactory(object):
         """Create an event
         """
         assert subsystem == SUBSYSTEM, 'Subsystems do not match'
-        
+
         if code == REQUEST:
             event = RequestEvent(context, event_id, date, 
                         instanceUserInfo, siteInfo, groupInfo)
@@ -90,9 +90,8 @@ class AcceptEvent(BasicAuditEvent):
                   siteInfo, groupInfo):
         """ Create a request event
         """
-        BasicAuditEvent.__init__(self, context, id, ACCEPT, d, None,
+        BasicAuditEvent.__init__(self, context, id, ACCEPT, d, userInfo,
           instanceUserInfo, siteInfo, groupInfo, None, None, 
-        retval = u'%s (%s) requested membership of the group %s (%s).' %\
           SUBSYSTEM)
           
     def __str__(self):
@@ -109,6 +108,41 @@ class AcceptEvent(BasicAuditEvent):
         cssClass = u'audit-event groupserver-group-member-accept-%s' %\
           self.code
         retval = u'<span class="%s">%s accepted the request to join '\
+            u'%s</span>'%\
+          (cssClass, self.userInfo.name, self.groupInfo.name)
+        
+        retval = u'%s (%s)' % \
+          (retval, munge_date(self.context, self.date))
+        return retval
+
+class DeclineEvent(BasicAuditEvent):
+    ''' An audit-trail event representing a person being declined a 
+    request to join a group
+    '''
+    implements(IAuditEvent)
+
+    def __init__(self, context, id, d, userInfo, instanceUserInfo, 
+                  siteInfo, groupInfo):
+        """ Create a request event
+        """
+        BasicAuditEvent.__init__(self, context, id, DECLINE, d, userInfo,
+          instanceUserInfo, siteInfo, groupInfo, None, None, 
+          SUBSYSTEM)
+          
+    def __str__(self):
+        retval = u'%s (%s) declined the request from %s (%s) to join '\
+            u'the group %s (%s).' %\
+           (self.userInfo.name,         self.userInfo.id,
+            self.instanceUserInfo.name, self.instanceUserInfo.id,
+            self.groupInfo.name,        self.groupInfo.id)
+        retval = retval.encode('ascii', 'ignore')
+        return retval
+    
+    @property
+    def xhtml(self):
+        cssClass = u'audit-event groupserver-group-member-decline-%s' %\
+          self.code
+        retval = u'<span class="%s">%s declined the request to join '\
             u'%s</span>'%\
           (cssClass, self.userInfo.name, self.groupInfo.name)
         
@@ -147,10 +181,23 @@ class ResponseAuditor(object):
         self.userInfo = userInfo
         self.groupInfo = groupInfo
         self.siteInfo = siteInfo
+        self.factory = AuditFactory()
+        
+    @Lazy
+    def queries(self):
+        retval = AuditQuery(self.context.zsqlalchemy)
+        return retval
 
-    def info(code, instanceUser):
+    def info(self, code, instanceUserInfo):
         d = datetime.now(UTC)
-        eventId = event_id_from_data(self.self.userInfo,
-            self.instanceUserInfo, self.siteInfo, code, '', 
+        eventId = event_id_from_data(self.userInfo,
+            instanceUserInfo, self.siteInfo, code, '', 
             '%s-%s' % (self.groupInfo.name, self.groupInfo.id))
+        e = self.factory(self.context, eventId,  code, d,
+                        self.userInfo, instanceUserInfo,
+                        self.siteInfo, self.groupInfo, '', '', SUBSYSTEM)
+            
+        self.queries.store(e)
+        log.info(e)
+        return e
 

@@ -4,6 +4,7 @@ from zope.component import createObject
 from gs.group.base.page import GroupPage
 from queries import RequestQuery
 from acceptor import Acceptor
+from audit import ResponseAuditor, ACCEPT, DECLINE
 
 class Respond(GroupPage):
     def __init__(self, group, request):
@@ -64,13 +65,19 @@ class Respond(GroupPage):
 
             result['error'] = False            
             acceptedMessage = declinedMessage = u''
+            
             acceptor = Acceptor(self.adminInfo, self.groupInfo)
+            auditor = ResponseAuditor(self.context, self.adminInfo, 
+                                        self.groupInfo, self.siteInfo)
 
             accepted = [k.split('-accept')[0] for k in responses
               if '-accept' in k]
             if accepted:
                 for uid in accepted:
-                    m = m + (u'<li>%s</li>\n' % acceptor.accept(uid))
+                    userInfo = createObject('groupserver.UserFromId', 
+                                            self.context, uid)
+                    m = m + (u'<li>%s</li>\n' % acceptor.accept(userInfo))
+                    auditor.info(ACCEPT, userInfo)
 
             declined = [k.split('-decline')[0] for k in responses 
                         if '-decline' in k]
@@ -78,7 +85,10 @@ class Respond(GroupPage):
                 assert d not in accepted
             if declined:
                 for uid in declined:
-                    m = m + (u'<li>%s</li>\n' % acceptor.decline(uid))
+                    userInfo = createObject('groupserver.UserFromId', 
+                                            self.context, uid)
+                    m = m + (u'<li>%s</li>\n' % acceptor.decline(userInfo))
+                    auditor.info(DECLINE, userInfo)
 
             result['message'] = u'<ul>\n%s</ul>' % m
 

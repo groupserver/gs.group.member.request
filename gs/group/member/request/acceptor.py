@@ -17,21 +17,15 @@ class Acceptor(object):
         retval = RequestQuery(da)
         return retval
 
-    def accept(self, userId):
-        userInfo = createObject('groupserver.UserFromId', 
-                                    self.groupInfo.groupObj, userId)
+    def accept(self, userInfo):
         joiningUser = IGSJoiningUser(userInfo)
         joiningUser.join(self.groupInfo)
         self.requestQuery.accept_request(userInfo.id, self.groupInfo.id,
             self.adminInfo.id)
-        # TODO Audit
         return u'Accepted the request from %s' % userInfo_to_anchor(userInfo)
 
-    def decline(self, userId):
-        self.requestQuery.decline_request(userId, self.groupInfo.id,
+    def decline(self, userInfo):
+        self.requestQuery.decline_request(userInfo.id, self.groupInfo.id,
             self.adminInfo.id)        
-        # TODO Audit
-        userInfo = createObject('groupserver.UserFromId', 
-                                    self.groupInfo.groupObj, userId)
         return u'Declined the request from %s' % userInfo_to_anchor(userInfo)
 
