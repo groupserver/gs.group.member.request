@@ -45,6 +45,26 @@
             tal:content="request/userInfo/name">
             The Applicant
           </h2>
+          <p>
+            <a class="fn" url="#"
+              tal:attributes="href request/userInfo/url"
+              tal:content="request/userInfo/name">The applicant</a>
+              wrote the following message when applying to join
+              <span class="group"
+                tal:content="view/groupInfo/name">this group</span>.
+          </p>
+          <blockquote>
+            <p>
+              <strong>From:</strong>
+              <a tal:attributes="href string:mailto:${request/email}"
+                href="#"><code 
+                    tal:content="request/email"
+                    class="email">email</code></a>
+            </p>
+            <pre tal:content="request/message">
+              The message
+            </pre>
+          </blockquote>
           <fieldset tal:define="uid request/userInfo/id">
             <div class="radioItem">
               <input type="radio" checked="" 

@@ -1,7 +1,9 @@
 # coding=utf-8
+from textwrap import TextWrapper
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
 from gs.group.base.page import GroupPage
+from gs.profile.email.base.emailuser import EmailUser
 from queries import RequestQuery
 from acceptor import Acceptor
 from audit import ResponseAuditor, ACCEPT, DECLINE
@@ -102,16 +104,32 @@ class Respond(GroupPage):
         return result
 
 class Request(object):
+    email_wrapper = TextWrapper(width=72, expand_tabs=False, 
+                        replace_whitespace=False, break_on_hyphens=False,
+                        break_long_words=False)
     def __init__(self, context, requestId, userId, message):
         self.context = context
         self.requestId = requestId
         self.userId = userId
-        self.message = message
+        self.message = self.email_wrapper.fill(message)
 
     @Lazy
     def userInfo(self):
         retval = createObject('groupserver.UserFromId', self.context, 
                                 self.userId)
         assert not(retval.anonymous)
+        return retval
+
+    @Lazy
+    def email(self):
+        # Note: This is not quite right, as the member could use a 
+        #   different email address to send the request to the one that
+        #   is returned here.
+        eu = EmailUser(self.context, self.userInfo)
+        addrs = eu.get_verified_addresses()
+        m = '%s (%s) has no verified email address' % \
+            (self.userInfo.name, self.userInfo.id)
+        assert len(addrs) > 0, m
+        retval = addrs[0]
         return retval
 
