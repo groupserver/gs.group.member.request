@@ -14,7 +14,9 @@ from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.XWFCore.XWFUtils import convert_int2b62
+from Products.GSGroupMember.groupMembersInfo import GSGroupMembersInfo
 from gs.group.base.form import GroupForm
+from gs.profile.email.notify.sender import MessageSender
 from gs.profile.email.base.emailuser import EmailUser
 from interfaces import IGSRequestMembership
 from queries import RequestQuery
@@ -72,7 +74,12 @@ class RequestForm(GroupForm):
         requestId = self.create_request_id(data['fromAddress'], data['message'])
         self.requestQuery.add_request(requestId, self.userInfo.id, 
             data['message'], self.siteInfo.id, self.groupInfo.id)
-        msg  = self.create_message(data['fromAddress'], data['message'])
+        
+        mi = GSGroupMembersInfo(self.context)
+        admins = mi.groupAdmins and mi.groupAdmins or mi.siteAdmins
+        fromAddress = formataddr((self.userInfo.name, data['fromAddress']))
+        for admin in admins:
+            self.send_message(fromAddress, admin, data['message'])
 
         ra = RequestAuditor(self.context, self.groupInfo, self.siteInfo)
         ra.info(self.userInfo)
@@ -83,7 +90,24 @@ class RequestForm(GroupForm):
             _(u'You will be contacted by the group administator when '\
                 u'your request is considered.')
 
+    def send_message(self, fromAddress, adminInfo, message):
+        sender = MessageSender(self.context, self.userInfo)
+        subject = _(u'Request to Join ') + self.groupInfo.name
+        
+        newRequest = self.request
+        #TODO: ADMIN
+        newRequest.form['adminId'] = '6wqOHuEKAVClbmHaIuqYWF'
+        
+        newRequest.form['userId'] = self.userInfo.id
+        newRequest.form['email'] = fromAddress
+        newRequest.form['mesg'] = message
+        txt = getMultiAdapter((self.context, newRequest),
+                            name="request_message.txt")()
+        html = getMultiAdapter((self.context, newRequest),
+                            name="request_message.html")()
 
+        sender.send_message(subject, txt, html, fromAddress)
+        
     def create_request_id(self, fromAddress, message):
         istr = fromAddress + message + self.userInfo.id + \
             str(datetime.now(UTC)) + self.userInfo.name + \
@@ -93,39 +117,6 @@ class RequestForm(GroupForm):
         retval = str(convert_int2b62(inum))
         assert retval
         assert type(retval) == str
-        return retval
-
-    def create_message(self, fromAddress, message):
-        container = MIMEMultipart('alternative')
-        subject = _(u'Request to Join ') + self.groupInfo.name
-        container['Subject'] = str(Header(subject, utf8))
-        fromAddr = formataddr((self.userInfo.name, fromAddress))
-        container['From'] = fromAddr
-        # TODO: To
-        toAddr = formataddr(('You', 'mpj17@groupsense.net'))
-        container['To'] = toAddr
-        # --=mpj17=-- check where bounces should go
-        groupAddr = formataddr(('The Group', 'mpj17@groupsense.net'))
-        container['Reply-to'] = groupAddr 
-
-        newRequest = self.request
-        newRequest.form['adminId'] = '6wqOHuEKAVClbmHaIuqYWF'
-        newRequest.form['userId'] = self.userInfo.id
-        newRequest.form['email'] = 'mpj17@groupsense.net'
-        newRequest.form['mesg'] = message
-        
-        t = getMultiAdapter((self.context, newRequest),
-                            name="request_message.txt")()
-        txt = MIMEText(t.encode(utf8), 'plain', utf8)   
-        container.attach(txt)
-
-        h = getMultiAdapter((self.context, newRequest),
-                            name="request_message.html")()
-        html = MIMEText(h.encode(utf8), 'html', utf8)   
-        container.attach(html)
-
-        retval = container.as_string()
-        print retval
         return retval
 
     def handle_failure(self, action, data, errors):
