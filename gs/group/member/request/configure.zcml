@@ -4,6 +4,7 @@
   xmlns:five="http://namespaces.zope.org/five"
   i18n_domain="groupserver">
 
+  <!-- The Request page -->
   <browser:page 
     for="Products.XWFChat.interfaces.IGSGroupFolder" 
     name="request.html"
@@ -25,6 +26,7 @@
     template="browser/templates/mesg.pt"
     permission="zope2.View" />
 
+  <!-- The Response page -->
   <browser:page 
     for="Products.XWFChat.interfaces.IGSGroupFolder" 
     name="respond.html"
@@ -47,6 +49,7 @@
     template="browser/templates/decline.pt"
     permission="zope2.View" />
 
+  <!-- The audit-event factory -->
   <utility
     factory=".audit.AuditFactory"
     name="gs.group.member.request"
