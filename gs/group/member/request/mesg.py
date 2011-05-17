@@ -1,4 +1,5 @@
 # coding=utf-8
+from cgi import escape
 from zope.component import createObject
 from zope.cachedescriptors.property import Lazy
 from zope.i18nmessageid import MessageFactory
@@ -32,5 +33,12 @@ class RequestMessage(GroupPage):
         assert self.email
         s = _(u'Your Request to Join ') + self.groupInfo.name
         retval = 'mailto:%s?Subject=%s' % (self.email, s)
+        return retval
+
+    @Lazy
+    def message(self):
+        r = escape(self.mesg)
+        retval = u'<p>%s</p>' %\
+            r.replace(u'\n\n', u'</p><p>').replace(u'\n',u'<br/>')
         return retval
 

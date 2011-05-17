@@ -26,9 +26,9 @@
         <a href="#" tal:attributes="href view/mailto"><code class="email" 
             tal:content="view/email">some.email@address.com</code></a>
       </p>
-      <pre tal:content="view/mesg">
-I am awesome
-      </pre>
+      <tal:block content="structure view/message">
+        I am awesome
+      </tal:block>
     </blockquote>
     <p>
       Go to the 
