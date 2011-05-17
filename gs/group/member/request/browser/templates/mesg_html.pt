@@ -11,7 +11,7 @@
     </p>
     <p>
       <a href="#" class="fn"
-        tal:attributes="href view/userInfo/url"
+        tal:attributes="href string:${view/siteInfo/url}${view/userInfo/url}"
         tal:content="view/userInfo/name">A person</a> has requested membership of
       <a href="#" class="group"
         tal:attributes="href view/groupInfo/url"
