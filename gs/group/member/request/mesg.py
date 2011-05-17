@@ -29,13 +29,6 @@ class RequestMessage(GroupPage):
         return retval
 
     @Lazy
-    def mailto(self):
-        assert self.email
-        s = _(u'Your Request to Join ') + self.groupInfo.name
-        retval = 'mailto:%s?Subject=%s' % (self.email, s)
-        return retval
-
-    @Lazy
     def message(self):
         r = escape(self.mesg)
         retval = u'<p>%s</p>' %\

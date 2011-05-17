@@ -23,7 +23,7 @@
     <blockquote>
       <p>
         <strong>From:</strong>
-        <a href="#" tal:attributes="href view/mailto"><code class="email" 
+        <a href="#" tal:attributes="href string:mailto:view/email"><code class="email" 
             tal:content="view/email">some.email@address.com</code></a>
       </p>
       <tal:block content="structure view/message">
