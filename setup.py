@@ -34,7 +34,9 @@ setup(name='gs.group.member.request',
         'setuptools',
         'gs.group.base',
         'gs.content.form',
+        'gs.group.member.join',
         'gs.profile.email.base',
+        'gs.profile.notify',
         # -*- Extra requirements: -*-
     ],
     entry_points="""
