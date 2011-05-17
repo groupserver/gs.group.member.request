@@ -2,11 +2,6 @@
 import md5
 from datetime import datetime
 from pytz import UTC
-from email.Message import Message
-from email.Header import Header
-from email.MIMEText import MIMEText
-from email.MIMEMultipart import MIMEMultipart
-from email.utils import formataddr
 from zope.formlib import form
 from zope.component import createObject, getMultiAdapter
 from zope.cachedescriptors.property import Lazy
@@ -16,12 +11,11 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.XWFCore.XWFUtils import convert_int2b62
 from Products.GSGroupMember.groupMembersInfo import GSGroupMembersInfo
 from gs.group.base.form import GroupForm
-from gs.profile.email.notify.sender import MessageSender
+from gs.profile.notify.sender import MessageSender
 from gs.profile.email.base.emailuser import EmailUser
 from interfaces import IGSRequestMembership
 from queries import RequestQuery
 from audit import REQUEST, RequestAuditor
-utf8 = 'utf-8'
 
 class RequestForm(GroupForm):
     form_fields = form.Fields(IGSRequestMembership)
@@ -60,9 +54,7 @@ class RequestForm(GroupForm):
             else:
                 fromAddr = ''
 
-        data = {'message': message,
-                'fromAddress': fromAddr}
-        
+        data = {'message': message, 'fromAddress': fromAddr}
         self.widgets = form.setUpWidgets(
             self.form_fields, self.prefix, self.context,
             self.request, form=self, data=data,
@@ -77,9 +69,8 @@ class RequestForm(GroupForm):
         
         mi = GSGroupMembersInfo(self.context)
         admins = mi.groupAdmins and mi.groupAdmins or mi.siteAdmins
-        fromAddress = formataddr((self.userInfo.name, data['fromAddress']))
         for admin in admins:
-            self.send_message(fromAddress, admin, data['message'])
+            self.send_message(data['fromAddress'], admin, data['message'])
 
         ra = RequestAuditor(self.context, self.groupInfo, self.siteInfo)
         ra.info(self.userInfo)
@@ -91,21 +82,17 @@ class RequestForm(GroupForm):
                 u'your request is considered.')
 
     def send_message(self, fromAddress, adminInfo, message):
-        sender = MessageSender(self.context, self.userInfo)
+        sender = MessageSender(self.context, adminInfo)
         subject = _(u'Request to Join ') + self.groupInfo.name
-        
         newRequest = self.request
-        #TODO: ADMIN
-        newRequest.form['adminId'] = '6wqOHuEKAVClbmHaIuqYWF'
-        
         newRequest.form['userId'] = self.userInfo.id
         newRequest.form['email'] = fromAddress
         newRequest.form['mesg'] = message
+        newRequest.form['adminId'] = adminInfo.id
         txt = getMultiAdapter((self.context, newRequest),
                             name="request_message.txt")()
         html = getMultiAdapter((self.context, newRequest),
                             name="request_message.html")()
-
         sender.send_message(subject, txt, html, fromAddress)
         
     def create_request_id(self, fromAddress, message):
