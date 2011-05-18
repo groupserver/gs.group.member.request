@@ -54,6 +54,13 @@
     factory=".audit.AuditFactory"
     name="gs.group.member.request"
     permission="zope.Public" />
+    
+  <!--help-->
+  <browser:viewlet name="gs-member-request-request"
+    manager="gs.help.interfaces.IUserHelp"
+    template="browser/templates/help_request.pt"
+    permission="zope2.Public"
+    weight="1" />
 
 </configure>
 

@@ -1,0 +1,30 @@
+<div class="section" id="gs-member-request-request">
+  <h2>Request Membership</h2>
+  <p>
+    You must <strong>request</strong> to become a member of a private
+    group.
+    To do this carry out the following steps.
+  </p>
+  <ol>
+    <li>Visit the homepage for the private group you want to join.</li>
+    <li>If you have a profile, login and click 
+      <samp class="link">Request membership</samp>.
+      If you do not have a profile click 
+      <samp class="link">Sign-up and request membership</samp>.
+      If you do not have a profile you will have to go through the
+      <a href="#gs-profile-signup">sign up</a> process to create a 
+      profile.
+    </li>
+    <li>Write a message to the group administrator, explaining why
+      you would like to become a member of the group.</li>
+    <li>Click the <samp class="button">Request</samp> button.</li>
+  </ol>
+  <p>
+    Your message, a link to your profile, and your email address will
+    be sent to the group administrator.
+    The administrator will then accept or decline your request.
+    You will receive an email message when the administrator has made
+    a decision.
+  </p>
+</div><!--gs-member-request-request-->
+
