@@ -51,3 +51,17 @@ class RequestQuery(object):
                     retval.append(rd)
         return retval
 
+    def count_current_requests(self, groupId, siteId):
+        cols = [sa.func.count(self.requestTable.c.request_id)]
+        s = sa.select(cols)
+        s.append_whereclause(self.requestTable.c.group_id == groupId)
+        s.append_whereclause(self.requestTable.c.site_id == siteId)
+        s.append_whereclause(self.requestTable.c.response_date == None)
+        
+        r = s.execute()
+        retval = r.scalar()
+        if retval == None:
+            retval = 0
+        assert retval >= 0
+        return retval
+

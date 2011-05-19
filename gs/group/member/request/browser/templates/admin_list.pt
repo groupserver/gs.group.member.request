@@ -1,3 +1,9 @@
-<li id="respond-link"><a href="respond.html"><strong>Respond</strong> to
-    the requests</a> to join the group.</li>
+<li id="respond-link" class="ui-state-highlight"
+  tal:condition="view/requestCount"
+  style="list-style:none;margin-bottom:1.385em;padding:0.689em;">
+  <span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.0.689em;"></span>
+  <a href="respond.html"><strong>Respond</strong> to the requests</a> 
+  to join 
+  <span class="group"
+    tal:content="view/groupInfo/name">this group</span>.</li>
 
