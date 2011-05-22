@@ -37,7 +37,7 @@
       in 
       <span class="group"
         tal:content="view/groupInfo/name">your group</span>
-      to accept or delcine the request.
+      to accept or decline the request.
     </p>
   </body>
 </html>
