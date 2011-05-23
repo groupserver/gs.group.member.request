@@ -1,13 +1,16 @@
-<tal:block>
+<tal:block define="request string:request.html">
   <li id="gs-group-member-request-anon-link"
     tal:condition="view/loggedInUser/anonymous">
       <a href="#"
-        tal:define="url string:/request_registration.html?form.groupId=${view/groupInfo/id}"
+        tal:define="requestUrl string:${view/groupInfo/url}/${request};
+          url string:/request_registration.html?form.came_from=${requestUrl}"
         tal:attributes="title string:Sign up and request membership of ${view/groupInfo/name};
-        href url;"><strong>Sign up</strong></a> and request membership.</li>
+        href url;"><strong>Sign up</strong></a> and 
+        <strong>request</strong> membership.</li>
   <li id="gs-group-member-request-loggedin-link"
     tal:condition="not:view/loggedInUser/anonymous">
-    <a href="request.html"><strong>Request</strong> membership</a> 
+    <a tal:attributes="href string:${view/groupInfo/relativeUrl}/${request}"
+      href="#"><strong>Request</strong> membership</a> 
     to become a member.</li>
 </tal:block>
 
