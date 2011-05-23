@@ -20,12 +20,16 @@
       <div id="change-email-intro"
         i18n:translate="gs_group_membership_request_intro">
         <p>
-          To request membership of 
+          To become a member of 
           <span class="group"
-            tal:content="view/groupInfo/name">this group</span>, 
-          write a message to the administrator explaining why you
-          should become a member
-          and click the <samp class="button">Request</samp> button.
+            tal:content="view/groupInfo/name">this group</span>
+          you must <strong>request</strong> membership from the 
+          administrator. 
+          To request membership write a message to the administrator
+          explaining why you should become a member and click the
+          <samp class="button">Request</samp> button.
+          You will be contacted when the administrator has considered
+          your request.
         </p>
       </div><!--change-email-intro-->
       <form enctype="multipart/form-data"  method="post" action="."
