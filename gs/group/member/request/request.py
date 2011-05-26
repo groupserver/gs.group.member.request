@@ -11,6 +11,7 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from Products.XWFCore.XWFUtils import convert_int2b62
 from Products.GSGroupMember.groupMembersInfo import GSGroupMembersInfo
 from gs.group.base.form import GroupForm
+from gs.group.member.base.utils import user_member_of_group
 from gs.profile.notify.sender import MessageSender
 from gs.profile.email.base.emailuser import EmailUser
 from interfaces import IGSRequestMembership
@@ -36,6 +37,11 @@ class RequestForm(GroupForm):
         da = self.context.zsqlalchemy
         assert da
         retval = RequestQuery(da)
+        return retval
+
+    @Lazy
+    def isMember(self):
+        retval = user_member_of_group(self.userInfo, self.groupInfo)
         return retval
 
     def setUpWidgets(self, ignore_request=False):
