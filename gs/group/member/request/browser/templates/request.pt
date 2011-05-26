@@ -17,7 +17,7 @@
       metal:fill-slot="messages">&#160;</tal:block>
     <tal:block metal:fill-slot="body">
       <h1 tal:content="view/label">Request Membership</h1>
-      <div id="change-email-intro"
+      <div id="request-membership-intro"
         i18n:translate="gs_group_membership_request_intro">
         <p>
           To become a member of 
