@@ -9,7 +9,7 @@
         <strong>request</strong> membership.</li>
   <li id="gs-group-member-request-loggedin-link"
     tal:condition="not:view/loggedInUser/anonymous">
-    <a tal:attributes="href string:${view/groupInfo/relativeUrl}/${request}"
+    <a tal:attributes="href string:${view/groupInfo/relativeURL}/${request}"
       href="#"><strong>Request</strong> membership</a> 
     to become a member.</li>
 </tal:block>
