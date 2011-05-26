@@ -2,8 +2,8 @@
   <li id="gs-group-member-request-anon-link"
     tal:condition="view/loggedInUser/anonymous">
       <a href="#"
-        tal:define="requestUrl string:${view/groupInfo/url}/${request};
-          url string:/request_registration.html?form.came_from=${requestUrl}"
+        tal:define="requestURL string:${view/groupInfo/url}/${request};
+          url string:/request_registration.html?form.came_from=${requestURL}"
         tal:attributes="title string:Sign up and request membership of ${view/groupInfo/name};
         href url;"><strong>Sign up</strong></a> and 
         <strong>request</strong> membership.</li>
