@@ -2,7 +2,7 @@
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
 from Products.CustomUserFolder.userinfo import userInfo_to_anchor
-from Products.GSGroupMember.groupmembership import user_member_of_group
+from gs.group.member.base.utils import user_member_of_group
 from gs.group.member.join.interfaces import IGSJoiningUser
 from queries import RequestQuery
 
