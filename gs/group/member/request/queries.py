@@ -3,17 +3,20 @@ from operator import and_
 import sqlalchemy as sa
 from datetime import datetime
 from pytz import UTC
+from gs.database import getTable, getSession
+from zope.sqlalchemy import mark_changed
 
 class RequestQuery(object):
-    def __init__(self, da):
-        self.requestTable = da.createTable('user_group_member_request')
+    def __init__(self):
+        self.requestTable = getTable('user_group_member_request')
 
     def add_request(self, requestId, userId, message, siteId, groupId):
         now = datetime.now(UTC)
         i = self.requestTable.insert()
-        i.execute(  request_id = requestId, user_id = userId, 
-                    message = message, site_id = siteId, 
-                    group_id = groupId, request_date = now)
+        session.execute(i, params={"request_id": requestId, "user_id": userId, 
+                                   "message": message, "site_id": siteId, 
+                                   "group_id": groupId, "request_date": now})
+        mark_changed(session)
         
     def decline_request(self, userId, groupId, adminId):
         self.update_request(userId, groupId, adminId, False)
@@ -27,17 +30,21 @@ class RequestQuery(object):
                 self.requestTable.c.group_id == groupId),
                 self.requestTable.c.response_date == None))
         now = datetime.now(UTC)
-        u.execute(  responding_user_id = adminId, response_date=now, 
-                    accepted = response)
+        session = getSession() 
+        session.execute(u, params={'responding_user_id': adminId,
+                                   'response_date': now, 
+                                   'accepted': response})
+        mark_changed(session)
 
     def current_requests(self, groupId, siteId):
-        s = self.requestTable.select()
+        s = self.requestTable.select(
+                    order_by=sa.desc(self.requestTable.c.request_date))
         s.append_whereclause(self.requestTable.c.group_id == groupId)
         s.append_whereclause(self.requestTable.c.site_id == siteId)
         s.append_whereclause(self.requestTable.c.response_date == None)
-        s.order_by(sa.desc(self.requestTable.c.request_date))
-
-        r = s.execute()
+        
+        session = getSession()
+        r = session.execute(s)
         retval = []
         seen = set()
         if r.rowcount >= 1:
@@ -58,7 +65,8 @@ class RequestQuery(object):
         s.append_whereclause(self.requestTable.c.site_id == siteId)
         s.append_whereclause(self.requestTable.c.response_date == None)
         
-        r = s.execute()
+        session = getSession()
+        r = session.execute(s)
         retval = r.scalar()
         if retval == None:
             retval = 0

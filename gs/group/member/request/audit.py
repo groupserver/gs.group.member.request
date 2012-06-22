@@ -159,7 +159,7 @@ class RequestAuditor(object):
 
     @Lazy
     def queries(self):
-        retval = AuditQuery(self.context.zsqlalchemy)
+        retval = AuditQuery()
         return retval
 
     def info(self, instanceUser):
@@ -186,7 +186,7 @@ class ResponseAuditor(object):
         
     @Lazy
     def queries(self):
-        retval = AuditQuery(self.context.zsqlalchemy)
+        retval = AuditQuery()
         return retval
 
     def info(self, code, instanceUserInfo):

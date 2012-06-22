@@ -23,9 +23,7 @@ class Respond(GroupPage):
         
     @Lazy
     def requestQuery(self):
-        da = self.context.zsqlalchemy
-        assert da
-        retval = RequestQuery(da)
+        retval = RequestQuery()
         return retval
 
     @Lazy

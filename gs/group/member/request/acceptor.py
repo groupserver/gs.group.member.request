@@ -1,6 +1,5 @@
 # coding=utf-8
 from zope.cachedescriptors.property import Lazy
-from zope.component import createObject
 from Products.CustomUserFolder.userinfo import userInfo_to_anchor
 from gs.group.member.base.utils import user_member_of_group
 from gs.group.member.join.interfaces import IGSJoiningUser
@@ -13,9 +12,7 @@ class Acceptor(object):
 
     @Lazy
     def requestQuery(self):
-        da = self.groupInfo.groupObj.zsqlalchemy
-        assert da
-        retval = RequestQuery(da)
+        retval = RequestQuery()
         return retval
 
     def accept(self, userInfo):

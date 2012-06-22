@@ -8,9 +8,7 @@ class RequestMembershipListViewlet(GroupAdminViewlet):
     
     @Lazy
     def requestCount(self):
-        da = self.context.zsqlalchemy
-        assert da, 'Data adaptor not found'
-        rq = RequestQuery(da)
+        rq = RequestQuery()
         retval = rq.count_current_requests(self.groupInfo.id, 
                                             self.siteInfo.id)
         return retval
