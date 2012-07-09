@@ -13,9 +13,11 @@ class RequestQuery(object):
     def add_request(self, requestId, userId, message, siteId, groupId):
         now = datetime.now(UTC)
         i = self.requestTable.insert()
-        session.execute(i, params={"request_id": requestId, "user_id": userId, 
-                                   "message": message, "site_id": siteId, 
-                                   "group_id": groupId, "request_date": now})
+        d = {"request_id": requestId, "user_id": userId, 
+             "message": message, "site_id": siteId, 
+             "group_id": groupId, "request_date": now}
+        session = getSession()
+        session.execute(i, params=d)
         mark_changed(session)
         
     def decline_request(self, userId, groupId, adminId):
