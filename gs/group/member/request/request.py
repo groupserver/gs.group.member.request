@@ -79,7 +79,7 @@ class RequestForm(GroupForm):
         ra = RequestAuditor(self.context, self.groupInfo, self.siteInfo)
         ra.info(self.userInfo)
 
-        l = '<a href="%s">%s</a>. ' % (self.groupInfo.url, 
+        l = '<a href="%s">%s</a>. ' % (self.groupInfo.relativeURL,
                                         self.groupInfo.name)
         self.status = _(u'You have requested membership of ') + l +\
             _(u'You will be contacted by the group administator when '\
