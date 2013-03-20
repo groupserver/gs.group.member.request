@@ -79,14 +79,5 @@
     weight="2"
     title="Request" />
 
-  <!--The Request link on the group homepage-->
-  <browser:viewlet name="gs-group-member-request-link"
-    manager="gs.group.home.interfaces.IGroupHomepageUsLinks"
-    template="browser/templates/request_link.pt"
-    class=".requestlink.RequestLinkViewlet"
-    permission="zope2.View"
-    weight="3"
-    title="Request" />
-
 </configure>
 
