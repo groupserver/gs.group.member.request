@@ -1,9 +1,6 @@
-<li id="respond-link" class="ui-state-highlight"
-  tal:condition="view/requestCount"
-  style="list-style:none;margin-bottom:1.385em;padding:0.689em;">
-  <span class="ui-icon ui-icon-info" style="float: left; margin-right: 0.0.689em;"></span>
-  <a href="respond.html"><strong>Respond</strong> to the requests</a> 
-  to join 
-  <span class="group"
-    tal:content="view/groupInfo/name">this group</span>.</li>
+<li id="gs-group-messages-request-respond-link">
+  <a tal:attributes="href string:${view/groupInfo/relativeURL}/respond.html"
+     href="respond.html"><span class="badge">!</span>
+     <strong>Respond</strong> to the membership requests.</a>
+</li>
 
