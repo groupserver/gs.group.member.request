@@ -43,4 +43,3 @@ setup(name='gs.group.member.request',
     entry_points="""
     # -*- Entry points: -*-
     """,)
-

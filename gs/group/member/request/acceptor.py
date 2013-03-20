@@ -1,9 +1,10 @@
 # coding=utf-8
 from zope.cachedescriptors.property import Lazy
 from Products.CustomUserFolder.userinfo import userInfo_to_anchor
-from gs.group.member.base.utils import user_member_of_group
+from gs.group.member.base import user_member_of_group
 from gs.group.member.join.interfaces import IGSJoiningUser
 from queries import RequestQuery
+
 
 class Acceptor(object):
     def __init__(self, adminInfo, groupInfo):
@@ -16,8 +17,8 @@ class Acceptor(object):
         return retval
 
     def accept(self, userInfo):
-        self.requestQuery.accept_request(userInfo.id, 
-            self.groupInfo.id,self.adminInfo.id)
+        self.requestQuery.accept_request(userInfo.id, self.groupInfo.id,
+                                            self.adminInfo.id)
         if user_member_of_group(userInfo, self.groupInfo):
             retval = u'%s is already a member of the group, so '\
                 u'the request was ignored.' % userInfo_to_anchor(userInfo)
@@ -32,4 +33,3 @@ class Acceptor(object):
         self.requestQuery.decline_request(userInfo.id, self.groupInfo.id,
             self.adminInfo.id)
         return u'Declined the request from %s' % userInfo_to_anchor(userInfo)
-
