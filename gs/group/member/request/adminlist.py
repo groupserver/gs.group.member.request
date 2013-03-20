@@ -12,3 +12,10 @@ class RequestMembershipListViewlet(GroupAdminViewlet):
         retval = rq.count_current_requests(self.groupInfo.id,
                                             self.siteInfo.id)
         return retval
+
+    @Lazy
+    def show(self):
+        isAdmin = super(RequestMembershipListViewlet, self).show
+        hasRequest = self.requestCount > 0
+        retval = isAdmin and hasRequest
+        return retval
