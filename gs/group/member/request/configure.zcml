@@ -72,11 +72,11 @@
   <!--The Admin Tab -->
   <browser:viewlet 
     name="gs-group-member-request-home-admin-tab"
-    manager="gs.group.home.interfaces.IGroupHomepageAdminLinks"
-    template="browser/templates/admin_list.pt"
+    manager="gs.group.member.info.interfaces.IGroupMemberAdminLinks"
     class=".adminlist.RequestMembershipListViewlet"
+    template="browser/templates/admin_list.pt"
     permission="zope2.Public"
-    weight="2"
+    weight="0"
     title="Request" />
 
 </configure>
