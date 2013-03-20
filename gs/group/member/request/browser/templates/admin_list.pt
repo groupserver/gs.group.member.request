@@ -1,6 +1,6 @@
 <li id="gs-group-messages-request-respond-link">
   <a tal:attributes="href string:${view/groupInfo/relativeURL}/respond.html"
      href="respond.html"><span class="badge">!</span>
-     <strong>Respond</strong> to the membership requests.</a>
+     <strong>Membership request!</strong></a>
 </li>
 
