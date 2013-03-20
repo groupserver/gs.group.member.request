@@ -1,6 +1,5 @@
 # coding=utf-8
 from textwrap import TextWrapper
-from email.Message import Message
 from email.Header import Header
 from email.MIMEText import MIMEText
 from email.MIMEMultipart import MIMEMultipart
@@ -17,10 +16,11 @@ from acceptor import Acceptor
 from audit import ResponseAuditor, ACCEPT, DECLINE
 utf8 = 'utf-8'
 
+
 class Respond(GroupPage):
     def __init__(self, group, request):
         GroupPage.__init__(self, group, request)
-        
+
     @Lazy
     def requestQuery(self):
         retval = RequestQuery()
@@ -28,7 +28,7 @@ class Respond(GroupPage):
 
     @Lazy
     def requests(self):
-        rd = self.requestQuery.current_requests(self.groupInfo.id, 
+        rd = self.requestQuery.current_requests(self.groupInfo.id,
                                                 self.siteInfo.id)
         retval = [Request(self.context, r['request_id'], r['user_id'],
                             r['message'])
@@ -44,9 +44,9 @@ class Respond(GroupPage):
 
     def process_form(self):
         '''Process the forms in the page.
-        
+
         This method uses the "submitted" pattern that is used for the
-        XForms impementation on GroupServer. 
+        XForms impementation on GroupServer.
           * The method is called whenever the page is loaded by
             tal:define="result view/process_form".
           * The submitted form is checked for the hidden "submitted" field.
@@ -54,7 +54,7 @@ class Respond(GroupPage):
             not when the page is loaded for the first time.
             - If the field is present, then the form is processed.
             - If the field is absent, then the method re  turns.
-        
+
         RETURNS
             A "result" dictionary, that at-least contains the form that
             was submitted'''
@@ -67,55 +67,54 @@ class Respond(GroupPage):
         result = {}
         result['form'] = form
         m = u''
-        if form.has_key('submitted'):
+        if 'submitted' in form:
             userIds = [k.split('-respond')[0] for k in form.keys()
                 if '-respond' in k]
             responses = [form['%s-respond' % k] for k in userIds]
 
-            result['error'] = False            
-            acceptedMessage = declinedMessage = u''
-            
+            result['error'] = False
+
             acceptor = Acceptor(self.adminInfo, self.groupInfo)
-            auditor = ResponseAuditor(self.context, self.adminInfo, 
+            auditor = ResponseAuditor(self.context, self.adminInfo,
                                         self.groupInfo, self.siteInfo)
 
             accepted = [k.split('-accept')[0] for k in responses
               if '-accept' in k]
             if accepted:
                 for uid in accepted:
-                    userInfo = createObject('groupserver.UserFromId', 
+                    userInfo = createObject('groupserver.UserFromId',
                                             self.context, uid)
                     m = m + (u'<li>%s</li>\n' % acceptor.accept(userInfo))
                     auditor.info(ACCEPT, userInfo)
 
-            declined = [k.split('-decline')[0] for k in responses 
+            declined = [k.split('-decline')[0] for k in responses
                         if '-decline' in k]
             for d in declined:
                 assert d not in accepted
             if declined:
                 for uid in declined:
-                    userInfo = createObject('groupserver.UserFromId', 
+                    userInfo = createObject('groupserver.UserFromId',
                                             self.context, uid)
                     m = m + (u'<li>%s</li>\n' % acceptor.decline(userInfo))
                     auditor.info(DECLINE, userInfo)
                     self.create_decline_message(userInfo)
             result['message'] = u'<ul>\n%s</ul>' % m
 
-            assert result.has_key('error')
+            assert 'error' in result
             assert type(result['error']) == bool
-            assert result.has_key('message')
+            assert 'message' in result
             assert type(result['message']) == unicode
 
-        assert result.has_key('form')
+        assert 'form' in result
         assert type(result['form']) == dict
         return result
-        
+
     def create_decline_message(self, userInfo):
         container = MIMEMultipart('alternative')
         subject = _(u'Request to Join ') + self.groupInfo.name
         container['Subject'] = str(Header(subject, utf8))
         supportAddress = get_support_email(self.context, self.siteInfo.id)
-        fromAddr = formataddr(('%s Support' % self.siteInfo.name, 
+        fromAddr = formataddr(('%s Support' % self.siteInfo.name,
                                 supportAddress))
         container['From'] = fromAddr
         # TODO: To
@@ -127,25 +126,27 @@ class Respond(GroupPage):
         newRequest.form['userId'] = userInfo.id
         newRequest.form['email'] = ''
         newRequest.form['mesg'] = ''
-        
+
         t = getMultiAdapter((self.context, newRequest),
                             name="decline_message.txt")()
-        txt = MIMEText(t.encode(utf8), 'plain', utf8)   
+        txt = MIMEText(t.encode(utf8), 'plain', utf8)
         container.attach(txt)
 
         h = getMultiAdapter((self.context, newRequest),
                             name="decline_message.html")()
-        html = MIMEText(h.encode(utf8), 'html', utf8)   
+        html = MIMEText(h.encode(utf8), 'html', utf8)
         container.attach(html)
 
         retval = container.as_string()
         print retval
         return retval
 
+
 class Request(object):
-    email_wrapper = TextWrapper(width=72, expand_tabs=False, 
+    email_wrapper = TextWrapper(width=72, expand_tabs=False,
                         replace_whitespace=False, break_on_hyphens=False,
                         break_long_words=False)
+
     def __init__(self, context, requestId, userId, message):
         self.context = context
         self.requestId = requestId
@@ -154,14 +155,14 @@ class Request(object):
 
     @Lazy
     def userInfo(self):
-        retval = createObject('groupserver.UserFromId', self.context, 
+        retval = createObject('groupserver.UserFromId', self.context,
                                 self.userId)
         assert not(retval.anonymous)
         return retval
 
     @Lazy
     def email(self):
-        # Note: This is not quite right, as the member could use a 
+        # Note: This is not quite right, as the member could use a
         #   different email address to send the request to the one that
         #   is returned here.
         eu = EmailUser(self.context, self.userInfo)
@@ -171,4 +172,3 @@ class Request(object):
         assert len(addrs) > 0, m
         retval = addrs[0]
         return retval
-

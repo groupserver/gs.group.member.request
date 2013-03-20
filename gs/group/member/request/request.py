@@ -16,7 +16,8 @@ from gs.profile.notify.sender import MessageSender
 from gs.profile.email.base.emailuser import EmailUser
 from interfaces import IGSRequestMembership
 from queries import RequestQuery
-from audit import REQUEST, RequestAuditor
+from audit import RequestAuditor
+
 
 class RequestForm(GroupForm):
     form_fields = form.Fields(IGSRequestMembership)
@@ -26,7 +27,7 @@ class RequestForm(GroupForm):
 
     def __init__(self, group, request):
         GroupForm.__init__(self, group, request)
-    
+
     @Lazy
     def userInfo(self):
         retval = createObject('groupserver.LoggedInUser', self.context)
@@ -63,14 +64,14 @@ class RequestForm(GroupForm):
             self.form_fields, self.prefix, self.context,
             self.request, form=self, data=data,
             ignore_request=ignore_request)
-        
+
     @form.action(label=_('Request'), failure='handle_failure')
     def handle_request(self, action, data):
         self.status = u''
         requestId = self.create_request_id(data['fromAddress'], data['message'])
-        self.requestQuery.add_request(requestId, self.userInfo.id, 
+        self.requestQuery.add_request(requestId, self.userInfo.id,
             data['message'], self.siteInfo.id, self.groupInfo.id)
-        
+
         mi = GSGroupMembersInfo(self.context)
         admins = mi.groupAdmins and mi.groupAdmins or mi.siteAdmins
         for admin in admins:
@@ -82,7 +83,7 @@ class RequestForm(GroupForm):
         l = '<a href="%s">%s</a>. ' % (self.groupInfo.relativeURL,
                                         self.groupInfo.name)
         self.status = _(u'You have requested membership of ') + l +\
-            _(u'You will be contacted by the group administator when '\
+            _(u'You will be contacted by the group administator when '
                 u'your request is considered.')
 
     def send_message(self, fromAddress, adminInfo, message):
@@ -98,7 +99,7 @@ class RequestForm(GroupForm):
         html = getMultiAdapter((self.context, newRequest),
                             name="request_message.html")()
         sender.send_message(subject, txt, html, fromAddress)
-        
+
     def create_request_id(self, fromAddress, message):
         istr = fromAddress + message + self.userInfo.id + \
             str(datetime.now(UTC)) + self.userInfo.name + \
@@ -115,4 +116,3 @@ class RequestForm(GroupForm):
             self.status = _(u'There was an error:')
         else:
             self.status = _(u'<p>There were errors:</p>')
-
