@@ -9,10 +9,14 @@ from gs.group.base import GroupPage
 
 class RequestMessage(GroupPage):
     def __init__(self, group, request):
-        GroupPage.__init__(self, group, request)
+        super(RequestMessage, self).__init__(group, request)
+        assert 'userId' in request.form, 'No userId'
         self.userId = request.form['userId']
+        assert 'adminId' in request.form, 'No adminId'
         self.adminId = request.form['adminId']
+        assert 'email' in request.form, 'No email'
         self.email = request.form['email']
+        assert 'mesg' in request.form, 'No mesg'
         self.mesg = request.form['mesg']
 
     @Lazy
