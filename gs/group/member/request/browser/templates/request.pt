@@ -5,8 +5,9 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n_domain="groupserver">
   <head>
-    <title metal:fill-slot="title">
-      <span tal:replace="string:${view/label}: ${view/groupInfo/name}: ${view/siteInfo/name}"/>
+    <title metal:fill-slot="title"><span tal:replace="view/label"/>:
+      <span tal:replace="view/groupInfo/name">This group</span>:
+      <span tal:replace="view/siteInfo/name">This site</span>
     </title>
   </head>
   <body>
@@ -14,10 +15,14 @@
       define="errors view/errors; status view/status; widgets view/widgets"
       content="structure provider:groupserver.FormStatusMessage"
       metal:fill-slot="messages">&#160;</tal:block>
-
     <ul metal:fill-slot="breadcrumb">
-      <li><a tal:attributes="title string:${view/siteInfo/name} Homepage"
-             href="/" title="Home">&#8962;</a></li>
+      <li class="site">
+        <a class="icon-alone" href="/"
+           tal:attributes="title string:${view/siteInfo/name} Homepage">
+          <span data-icon="⌂" aria-hidden="true"></span>
+        <span tal:content="string:${view/siteInfo/name} Homepage"
+              class="screen-reader-text">Site homepage</span></a>
+      </li>
       <li>
         <a class="group" 
            tal:attributes="href string:${view/groupInfo/relativeURL}/">

@@ -1,12 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  metal:use-macro="context/@@groupserver_layout/page">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@groupserver_layout/page"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n_domain="groupserver">
   <head>
-    <title metal:fill-slot="title">
-      Respond to Membership Requests:
-      <span tal:replace="view/groupInfo/name">A User</span>:
-      <span tal:replace="view/siteInfo/name">A Site</span>
+    <title metal:fill-slot="title">Respond to membership requests:
+      <span tal:replace="view/groupInfo/name">This group</span>:
+      <span tal:replace="view/siteInfo/name">This site</span>
     </title>
   </head>
   <body>
@@ -15,14 +16,30 @@
       metal:fill-slot="messages">&#160;</tal:block-->
     <div metal:fill-slot="messages"
       tal:define="result view/process_form;
-        isError python:result.get('error', False);
-        c python:(isError and 'message-error') or 'message-result';"
+                  isError python:result.get('error', False);
+                  c python:(isError and 'message-error') or 'message-result';"
       tal:condition="python:result and result.has_key('message')"
       tal:attributes="class string:${c} ui-state-highlight ui-corner-all"
       tal:content="structure result/message"/>
+    <ul metal:fill-slot="breadcrumb">
+      <li class="site">
+        <a class="icon-alone" href="/"
+           tal:attributes="title string:${view/siteInfo/name} Homepage">
+          <span data-icon="⌂" aria-hidden="true"></span>
+        <span tal:content="string:${view/siteInfo/name} Homepage"
+              class="screen-reader-text">Site homepage</span></a>
+      </li>
+      <li>
+        <a class="group" 
+           tal:attributes="href string:${view/groupInfo/relativeURL}/">
+          <strong
+            tal:content="view/groupInfo/name">This group</strong></a>
+      </li>
+      <li>Respond</li>
+    </ul>
     <div metal:fill-slot="body" id="gs-group-member-request-respond"
       tal:define="ctx view/context;
-        md python:modules['Products.XWFCore.XWFUtils'].munge_date;">
+                  md python:modules['Products.XWFCore.XWFUtils'].munge_date;">
       <h1>Respond to Membership Requests</h1>
       <form id="action" 
         tal:condition="view/requests"
@@ -96,8 +113,12 @@
           </fieldset>
         </div><!--user-request-->
         <input type="hidden" class="hidden" name="submitted" value=""/>
-        <input class="button" type="submit" value="Respond" 
-          id="respond-button" name="respond-button"/>
+        <div class="buttons">
+          <div class="formelementbutton">
+            <input class="button btn" type="submit" value="Respond" 
+                   id="respond-button" name="respond-button"/>
+          </div>
+        </div><!--buttons-->
       </form><!--current-->
       <p tal:condition="not:view/requests">
         There are no requests to join
