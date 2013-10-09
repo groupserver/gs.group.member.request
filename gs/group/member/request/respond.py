@@ -1,19 +1,33 @@
-# coding=utf-8
-from textwrap import TextWrapper
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+# Copyright © 2013 OnlineGroups.net and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+from __future__ import absolute_import
 from email.Header import Header
 from email.MIMEText import MIMEText
 from email.MIMEMultipart import MIMEMultipart
 from email.utils import formataddr
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('groupserver')
+from textwrap import TextWrapper
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject, getMultiAdapter
-from Products.XWFCore.XWFUtils import get_support_email
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory('groupserver')
 from gs.group.base.page import GroupPage
 from gs.profile.email.base.emailuser import EmailUser
-from queries import RequestQuery
-from acceptor import Acceptor
-from audit import ResponseAuditor, ACCEPT, DECLINE
+from Products.XWFCore.XWFUtils import get_support_email
+from .queries import RequestQuery
+from .acceptor import Acceptor
+from .audit import ResponseAuditor, ACCEPT, DECLINE
 utf8 = 'utf-8'
 
 

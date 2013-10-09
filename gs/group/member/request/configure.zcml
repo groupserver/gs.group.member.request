@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-  xmlns:browser="http://namespaces.zope.org/browser"
-  xmlns:five="http://namespaces.zope.org/five"
-  i18n_domain="groupserver">
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="groupserver">
 
   <!-- The Request page -->
   <browser:page 
-    for="gs.group.base.interfaces.IGSGroupMarker"
     name="request.html"
+    for="gs.group.base.interfaces.IGSGroupMarker"
     class=".request.RequestForm"
     permission="zope2.View" />
 
   <!-- The HTML and TXT form of the Request Membership message that is
      - sent to the administrator. -->  
   <browser:page 
-    for="gs.group.base.interfaces.IGSGroupMarker"
     name="request_message.html"
+    for="gs.group.base.interfaces.IGSGroupMarker"
     class=".mesg.RequestMessage"
     template="browser/templates/mesg_html.pt"
     permission="zope2.View" />
   <browser:page 
-    for="Products.XWFChat.interfaces.IGSGroupFolder" 
     name="request_message.txt"
+    for="Products.XWFChat.interfaces.IGSGroupFolder" 
     class=".mesg.RequestMessage"
     template="browser/templates/mesg.pt"
     permission="zope2.View" />

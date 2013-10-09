@@ -1,22 +1,36 @@
-# coding=utf-8
-import md5
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+# Copyright © 2013 OnlineGroups.net and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+from __future__ import absolute_import
 from datetime import datetime
+import md5
 from pytz import UTC
-from zope.formlib import form
-from zope.component import createObject, getMultiAdapter
 from zope.cachedescriptors.property import Lazy
+from zope.component import createObject, getMultiAdapter
+from zope.formlib import form
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from Products.XWFCore.XWFUtils import convert_int2b62
-from Products.GSGroupMember.groupMembersInfo import GSGroupMembersInfo
 from gs.group.base.form import GroupForm
 from gs.group.member.base import user_member_of_group
 from gs.profile.notify.sender import MessageSender
 from gs.profile.email.base.emailuser import EmailUser
-from interfaces import IGSRequestMembership
-from queries import RequestQuery
-from audit import RequestAuditor
+from Products.XWFCore.XWFUtils import convert_int2b62
+from Products.GSGroupMember.groupMembersInfo import GSGroupMembersInfo
+from .interfaces import IGSRequestMembership
+from .queries import RequestQuery
+from .audit import RequestAuditor
 
 
 class RequestForm(GroupForm):
