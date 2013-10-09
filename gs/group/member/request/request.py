@@ -96,9 +96,9 @@ class RequestForm(GroupForm):
 
         l = '<a href="%s">%s</a>. ' % (self.groupInfo.relativeURL,
                                         self.groupInfo.name)
-        self.status = _(u'You have requested membership of ') + l +\
+        self.status = _(u'<p>You have requested membership of ') + l +\
             _(u'You will be contacted by the group administator when '
-                u'your request is considered.')
+                u'your request is considered.</p>')
 
     def send_message(self, fromAddress, adminInfo, message):
         sender = MessageSender(self.context, adminInfo)

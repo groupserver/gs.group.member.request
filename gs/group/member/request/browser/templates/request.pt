@@ -1,10 +1,9 @@
-<html
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  metal:use-macro="context/@@groupserver_layout/page"
-  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-  i18n_domain="groupserver">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@groupserver_layout/page"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n_domain="groupserver">
   <head>
     <title metal:fill-slot="title">
       <span tal:replace="string:${view/label}: ${view/groupInfo/name}: ${view/siteInfo/name}"/>
@@ -15,10 +14,22 @@
       define="errors view/errors; status view/status; widgets view/widgets"
       content="structure provider:groupserver.FormStatusMessage"
       metal:fill-slot="messages">&#160;</tal:block>
-    <tal:block metal:fill-slot="body">
+
+    <ul metal:fill-slot="breadcrumb">
+      <li><a tal:attributes="title string:${view/siteInfo/name} Homepage"
+             href="/" title="Home">&#8962;</a></li>
+      <li>
+        <a class="group" 
+           tal:attributes="href string:${view/groupInfo/relativeURL}/">
+          <strong
+            tal:content="view/groupInfo/name">This group</strong></a>
+      </li>
+      <li>Request membership</li>
+    </ul>
+    <div id="gs-group-member-request" metal:fill-slot="body">
       <h1 tal:content="view/label">Request Membership</h1>
       <div id="request-membership-intro"
-        i18n:translate="gs_group_membership_request_intro">
+           i18n:translate="gs_group_membership_request_intro">
         <p>
           To become a member of 
           <span class="group"
@@ -33,8 +44,8 @@
         </p>
       </div><!--change-email-intro-->
       <form enctype="multipart/form-data"  method="post" action="."
-        id="gs-group-member-request" 
-        tal:attributes="action request/URL">
+            id="gs-group-member-request-form" class="gs-content-js-required"
+            tal:attributes="action request/URL">
         <tal:block define="widgets view/widgets">
           <tal:block replace="structure provider:groupserver.FormWidgets"/>
         </tal:block>
@@ -56,27 +67,7 @@
           </tal:block>
         </div><!--buttons-->
       </form><!-- form -->
-    </tal:block>
-    <tal:block metal:fill-slot="javascript">
-      <script type="text/javascript"
-        src="/++resource++check_required-20071214.js">&#160;</script>
-      <script type="text/javascript"
-        tal:define="widgets view/widgets; 
-          button string:#form\\.actions\\.request"
-        tal:content="provider:groupserver.RequiredWidgetsJavaScript">
-        alert("I have not been replaced.");
-      </script>
-      <script type="text/javascript"
-        src="/++resource++popup_help-20071218.js">&#160;</script>
-      <script type="text/javascript">
-          jQuery.noConflict();
-          jQuery(document).ready( function () {
-              GSPopupFormHelp.init('#gs-group-member-request');
-              jQuery('#form\\.message').focus();
-          });
-      </script>
-    </tal:block>
-
+    </div><!--gs-group-member-request-->
   </body>
 </html>
 
