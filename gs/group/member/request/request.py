@@ -22,7 +22,7 @@ from zope.formlib import form
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from gs.group.base.form import GroupForm
+from gs.group.base import GroupForm
 from gs.group.member.base import user_member_of_group
 from gs.profile.notify.sender import MessageSender
 from gs.profile.email.base.emailuser import EmailUser

@@ -22,9 +22,8 @@ from zope.cachedescriptors.property import Lazy
 from zope.component import createObject, getMultiAdapter
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
-from gs.group.base.page import GroupPage
-from gs.profile.email.base.emailuser import EmailUser
-from Products.XWFCore.XWFUtils import get_support_email
+from gs.group.base import GroupPage
+from gs.profile.email.base import EmailUser
 from .queries import RequestQuery
 from .acceptor import Acceptor
 from .audit import ResponseAuditor, ACCEPT, DECLINE
@@ -127,9 +126,8 @@ class Respond(GroupPage):
         container = MIMEMultipart('alternative')
         subject = _(u'Request to Join ') + self.groupInfo.name
         container['Subject'] = str(Header(subject, utf8))
-        supportAddress = get_support_email(self.context, self.siteInfo.id)
         fromAddr = formataddr(('%s Support' % self.siteInfo.name,
-                                supportAddress))
+                                self.siteInfo.get_support_email()))
         container['From'] = fromAddr
         # TODO: To
         toAddr = formataddr(('You', 'mpj17@groupsense.net'))
