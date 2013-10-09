@@ -55,15 +55,16 @@ setup(name='gs.group.member.request',
         'zope.schema',
         'zope.sqlalchemy',
         'Zope2',
-        'gs.group.base',
+        'gs.content.email.base',
+        'gs.content.email.layout'
         'gs.content.form',
         'gs.database',
+        'gs.group.base',
         'gs.group.member.join',
         'gs.group.member.viewlet',
         'gs.profile.notify',
         'gs.profile.email.base',
         'gs.profile.notify',
-        # -*- Extra requirements: -*-
     ],
     entry_points="""
     # -*- Entry points: -*-

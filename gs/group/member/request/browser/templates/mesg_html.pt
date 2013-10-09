@@ -1,43 +1,60 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@groupserver_email_layout/page">
   <head>
-    <title>Request to join 
-      <tal:block replace="view/groupInfo/name">A Group</tal:block></title>
+    <title metal:fill-slot="title">Request to join 
+      <tal:block replace="view/groupInfo/name">This group</tal:block>:
+      <tal:block replace="view/groupInfo/name">This site</tal:block>:
+    </title>
   </head>
   <body>
-    <p>
-      Hi
-      <span class="fn"
-        tal:content="view/adminInfo/name">there</span>,
-    </p>
-    <p>
-      <a href="#" class="fn"
-        tal:attributes="href string:${view/siteInfo/url}${view/userInfo/url}"
-        tal:content="view/userInfo/name">A person</a> has requested membership of
-      <a href="#" class="group"
-        tal:attributes="href view/groupInfo/url"
-        tal:content="view/groupInfo/name">your group</a>.
-      <span class="fn"
-        tal:content="view/userInfo/name">A person</span> wrote the
-      following message as part of the request.
-    </p>
-    <blockquote>
+    <div metal:fill-slot="body" id="gs-group-member-request">
       <p>
-        <strong>From:</strong>
-        <a href="#" tal:attributes="href string:mailto:view/email"><code class="email" 
-            tal:content="view/email">some.email@address.com</code></a>
+        Hi
+        <span class="fn"
+              tal:content="view/adminInfo/name">there</span>,
       </p>
-      <tal:block content="structure view/message">
-        I am awesome
-      </tal:block>
-    </blockquote>
-    <p>
-      Go to the 
-      <a tal:attributes="href string:${view/groupInfo/url}/respond.html"
-         href="#">response page</a>
-      in 
-      <span class="group"
-        tal:content="view/groupInfo/name">your group</span>
-      to accept or decline the request.
-    </p>
+      <p>
+        <a href="#" class="fn"
+           tal:attributes="href string:${view/siteInfo/url}${view/userInfo/url}"
+           tal:content="view/userInfo/name">A person</a> has requested membership of
+        <a href="#" class="group"
+           tal:attributes="href view/groupInfo/url"
+           tal:content="view/groupInfo/name">your group</a>.
+        <span class="fn"
+              tal:content="view/userInfo/name">A person</span> wrote the
+        following message as part of the request.
+      </p>
+      <blockquote>
+        <p>
+          <strong>From:</strong>
+          <a tal:attributes="href string:mailto:view/email"
+              href="#" ><code class="email" 
+                              tal:content="view/email">some.email@address.com</code></a>
+        </p>
+        <tal:block content="structure view/message">
+          I am awesome
+        </tal:block>
+      </blockquote>
+      <p>
+        Go to the 
+        <a tal:attributes="href string:${view/groupInfo/url}/respond.html"
+           href="#">response page</a>
+        in 
+        <span class="group"
+              tal:content="view/groupInfo/name">your group</span>
+        to accept or decline the request.
+      </p>
+      <p>
+        If you have any problems, email us at 
+        <a tal:attributes="href view/support"
+           href="#"><code tal:content="view/siteInfo/get_support_email">this address</code></a>
+      </p>
+      <p class="closing">
+        Kind regards<br/>
+        <span>The <span tal:content="view/siteInfo/name">Site</span>  Team</span>
+      </p>
+    </div>
   </body>
 </html>

@@ -13,14 +13,16 @@
 #
 ##############################################################################
 from cgi import escape
+from urllib import urlencode
 from zope.component import createObject
 from zope.cachedescriptors.property import Lazy
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
-from gs.group.base import GroupPage
+from gs.content.email.base import GroupEmail
 
 
-class RequestMessage(GroupPage):
+class RequestMessage(GroupEmail):
+
     def __init__(self, group, request):
         super(RequestMessage, self).__init__(group, request)
         assert 'userId' in request.form, 'No userId'
@@ -51,4 +53,18 @@ class RequestMessage(GroupPage):
         r = escape(self.mesg)
         retval = u'<p>%s</p>' %\
             r.replace(u'\n\n', u'</p><p>').replace(u'\n', u'<br/>')
+        return retval
+
+    @Lazy
+    def support(self):
+        s = 'Membership request'
+        m = u'Hi!\n\nI received a request from {0} to join the group '\
+            u'{1}\n    {2}\nand...'
+        msg = m.format(self.userInfo.name, self.groupInfo.name,
+                        self.groupInfo.url)
+        data = {'Subject': s,
+                  'body': msg.encode('UTF-8'), }
+
+        retval = 'mailto:{0}?{1}'.format(self.siteInfo.get_support_email(),
+                                        urlencode(data))
         return retval
