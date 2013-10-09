@@ -111,7 +111,7 @@ class Respond(GroupPage):
                     m = m + (u'<li>%s</li>\n' % acceptor.decline(userInfo))
                     auditor.info(DECLINE, userInfo)
                     self.create_decline_message(userInfo)
-            result['message'] = u'<ul>\n%s</ul>' % m
+            result['message'] = u'<ul>\n{0}</ul>'.format(m)
 
             assert 'error' in result
             assert type(result['error']) == bool

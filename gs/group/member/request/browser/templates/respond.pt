@@ -14,13 +14,18 @@
     <!-- tal:block content="structure provider:groupserver.FormStatusMessage"
       define="errors view/errors; status view/status; widgets view/widgets"
       metal:fill-slot="messages">&#160;</tal:block-->
-    <div metal:fill-slot="messages"
+    <div metal:fill-slot="messages" id="gs-content-form-message"
       tal:define="result view/process_form;
-                  isError python:result.get('error', False);
-                  c python:(isError and 'message-error') or 'message-result';"
+                  e python:result.get('error', False);
+                  mc string:alert alert-info;
+                  ec string:alert-block alert-error;"
       tal:condition="python:result and result.has_key('message')"
-      tal:attributes="class string:${c} ui-state-highlight ui-corner-all"
-      tal:content="structure result/message"/>
+      tal:attributes="class python:ec if e else mc" role="region">
+        <button aria-hidden="true" type="button" class="close" 
+          data-dismiss="alert">&times;</button>
+        <div class="gs-content-form-message-status"
+             tal:content="structure result/message"/>
+    </div><!--gs-content-form-message-->
     <ul metal:fill-slot="breadcrumb">
       <li class="site">
         <a class="icon-alone" href="/"
