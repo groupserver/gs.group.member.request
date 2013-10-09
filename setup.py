@@ -56,7 +56,7 @@ setup(name='gs.group.member.request',
         'zope.sqlalchemy',
         'Zope2',
         'gs.content.email.base',
-        'gs.content.email.layout'
+        'gs.content.email.layout',
         'gs.content.form',
         'gs.database',
         'gs.group.base',
