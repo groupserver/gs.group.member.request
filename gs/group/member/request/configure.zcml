@@ -32,19 +32,32 @@
     class=".respond.Respond"
     template="browser/templates/respond.pt"
     permission="zope2.ManageUsers" />
-
+  <!-- The HTML and TXT form of the Accepted message that is
+     - sent from the administrator. -->  
+  <browser:page 
+    for="gs.group.base.interfaces.IGSGroupMarker"
+    name="gs-group-member-request-accepted.html"
+    class=".notifications.AcceptedMessage"
+    template="browser/templates/accepted.pt"
+    permission="zope2.View" />
+  <browser:page 
+    for="gs.group.base.interfaces.IGSGroupMarker"
+    name="gs-group-member-request-accepted.txt"
+    class=".notifications.AcceptedMessageText"
+    template="browser/templates/accepted-txt.pt"
+    permission="zope2.View" />
   <!-- The HTML and TXT form of the Decline message that is
      - sent from the administrator. -->  
   <browser:page 
     for="gs.group.base.interfaces.IGSGroupMarker"
-    name="decline_message.html"
-    class=".mesg.RequestMessage"
+    name="gs-group-member-request-declined.html"
+    class=".notifications.DeclinedMessage"
     template="browser/templates/decline_html.pt"
     permission="zope2.View" />
   <browser:page 
+    name="gs-group-member-request-declined.txt"
     for="gs.group.base.interfaces.IGSGroupMarker"
-    name="decline_message.txt"
-    class=".mesg.RequestMessage"
+    class=".notifications.DeclinedMessageText"
     template="browser/templates/decline.pt"
     permission="zope2.View" />
 

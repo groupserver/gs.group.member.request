@@ -1,7 +1,12 @@
-Hi <tal:block replace="view/userInfo/name">Applicant</tal:block>,
+<tal:block define="userInfo options/userInfo | view/loggedInUserInfo; adminInfo options/adminInfo | view/loggedInUserInfo;">Dear <tal:block replace="userInfo/name">Applicant</tal:block>,
 
-I am sorry but I have declined your request to join <tal:block replace="view/groupInfo/name">your group</tal:block>.
+<tal:block
+  define="m string:Your request to join ${view/groupInfo/name} has been declined."
+  replace="python:view.fill(m)"/>
+
+If you have any problems, email
+  <tal:block content="view/siteInfo/get_support_email">this address</tal:block>
 
 Kind regards,
-  <tal:block replace="view/userInfo/name">The Admin</tal:block>
-
+  <tal:block replace="adminInfo/name">The Admin</tal:block>
+</tal:block>

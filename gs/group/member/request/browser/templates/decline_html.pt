@@ -4,12 +4,12 @@
       metal:use-macro="context/@@groupserver_email_layout/page">
   <head>
     <title metal:fill-slot="title">Membership declined:
-      <span tal:replace="view/groupInfo/name">this group</span>:
-      <span tal:replace="view/siteInfo/name">this site</span>
+    <span tal:replace="view/groupInfo/name">this group</span>:
+    <span tal:replace="view/siteInfo/name">this site</span>
     </title>
   </head>
   <body>
-    <div id="a-page" metal:fill-slot="body"
+    <div id="gs-group-member-request-declined" metal:fill-slot="body"
          tal:define="userInfo options/userInfo | view/loggedInUserInfo;
                      adminInfo options/adminInfo | view/loggedInUserInfo;">
       <h2>Membership declined</h2>
@@ -33,7 +33,7 @@
         Kind regards,<br/>
         <a tal:attributes="href adminInfo/url"
            tal:content="adminInfo/name">The Admin</a>
-    </p>
+      </p>
+    </div>
   </body>
 </html>
-
