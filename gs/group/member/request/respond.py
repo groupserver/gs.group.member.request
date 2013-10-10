@@ -15,7 +15,7 @@
 from __future__ import absolute_import
 from textwrap import TextWrapper
 from zope.cachedescriptors.property import Lazy
-from zope.component import createObject,
+from zope.component import createObject
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
 from gs.group.base import GroupPage
