@@ -110,7 +110,7 @@ class Respond(GroupPage):
                                             self.context, uid)
                     m = m + (u'<li>%s</li>\n' % acceptor.decline(userInfo))
                     auditor.info(DECLINE, userInfo)
-                    notifier.notify(userInfo, self.adminInfo())
+                    notifier.notify(userInfo, self.adminInfo)
             result['message'] = u'<ul>\n{0}</ul>'.format(m)
 
             assert 'error' in result

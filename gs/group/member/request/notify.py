@@ -56,6 +56,6 @@ class NotifyAccepted(object):
         self.request.response.setHeader('Content-Type', self.oldContentType)
 
 
-class NotifyDeclined(object):
+class NotifyDeclined(NotifyAccepted):
     textTemplateName = 'gs-group-member-request-declined.txt'
     htmlTemplateName = 'gs-group-member-request-declined.html'
