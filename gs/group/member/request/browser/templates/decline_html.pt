@@ -1,23 +1,38 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@groupserver_email_layout/page">
   <head>
-    <title>Request to join 
-      <tal:block replace="view/groupInfo/name">A Group</tal:block> 
-      Declined</title>
+    <title metal:fill-slot="title">Membership declined:
+      <span tal:replace="view/groupInfo/name">this group</span>:
+      <span tal:replace="view/siteInfo/name">this site</span>
+    </title>
   </head>
   <body>
-    <p>
-      Hi <span class="fn" tal:content="view/userInfo/name">Applicant</span>,
-    </p>
-    <p>
-      I am sorry but I have declined your request to join 
-      <a href="#" 
-        tal:attributes="href view/groupInfo/url"
-        tal:content="view/groupInfo/name">your group</a>.
-    </p>
-    <p>
-      Kind regards,<br/>
-      &#160;&#160;<a tal:attributes="href view/adminInfo/url"
-        tal:content="view/adminInfo/name">The Admin</a>
+    <div id="a-page" metal:fill-slot="body"
+         tal:define="userInfo options/userInfo | view/loggedInUserInfo;
+                     adminInfo options/adminInfo | view/loggedInUserInfo;">
+      <h2>Membership declined</h2>
+      <p>
+        Hi <span class="fn" tal:content="userInfo/name">Applicant</span>,
+      </p>
+      <p>
+        Your request to join 
+        <a href="#" 
+           tal:attributes="href view/groupInfo/url"
+           tal:content="view/groupInfo/name">your group</a>
+        has been declined.
+      </p>
+      <!--Troubleshooting/return/warranty/damage information-->
+      <p>
+        If you have any problems, email
+        <a tal:attributes="href view/supportEmail"
+           href="#"><code tal:content="view/siteInfo/get_support_email">this address</code></a>
+      </p>
+      <p class="closing">
+        Kind regards,<br/>
+        <a tal:attributes="href adminInfo/url"
+           tal:content="adminInfo/name">The Admin</a>
     </p>
   </body>
 </html>

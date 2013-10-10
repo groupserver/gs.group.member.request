@@ -38,7 +38,7 @@ class Acceptor(object):
                 u'the request was ignored.' % userInfo_to_anchor(userInfo)
         else:
             joiningUser = IGSJoiningUser(userInfo)
-            joiningUser.join(self.groupInfo)
+            joiningUser.silent_join(self.groupInfo)
             retval = u'Accepted the request from %s' % \
                             userInfo_to_anchor(userInfo)
         return retval

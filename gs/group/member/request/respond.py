@@ -13,20 +13,17 @@
 #
 ##############################################################################
 from __future__ import absolute_import
-from email.Header import Header
-from email.MIMEText import MIMEText
-from email.MIMEMultipart import MIMEMultipart
-from email.utils import formataddr
 from textwrap import TextWrapper
 from zope.cachedescriptors.property import Lazy
-from zope.component import createObject, getMultiAdapter
+from zope.component import createObject,
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
 from gs.group.base import GroupPage
 from gs.profile.email.base import EmailUser
-from .queries import RequestQuery
 from .acceptor import Acceptor
 from .audit import ResponseAuditor, ACCEPT, DECLINE
+from .notify import NotifyAccepted, NotifyDeclined
+from .queries import RequestQuery
 utf8 = 'utf-8'
 
 
@@ -92,12 +89,14 @@ class Respond(GroupPage):
                                         self.groupInfo, self.siteInfo)
 
             accepted = [k.split('-accept')[0] for k in responses
-              if '-accept' in k]
+                          if '-accept' in k]
             if accepted:
+                notifier = NotifyAccepted(self.context, self.request)
                 for uid in accepted:
                     userInfo = createObject('groupserver.UserFromId',
                                             self.context, uid)
                     m = m + (u'<li>%s</li>\n' % acceptor.accept(userInfo))
+                    notifier.notify(userInfo, self.adminInfo)
                     auditor.info(ACCEPT, userInfo)
 
             declined = [k.split('-decline')[0] for k in responses
@@ -105,12 +104,13 @@ class Respond(GroupPage):
             for d in declined:
                 assert d not in accepted
             if declined:
+                notifier = NotifyDeclined(self.context, self.request)
                 for uid in declined:
                     userInfo = createObject('groupserver.UserFromId',
                                             self.context, uid)
                     m = m + (u'<li>%s</li>\n' % acceptor.decline(userInfo))
                     auditor.info(DECLINE, userInfo)
-                    self.create_decline_message(userInfo)
+                    notifier.notify(userInfo, self.adminInfo())
             result['message'] = u'<ul>\n{0}</ul>'.format(m)
 
             assert 'error' in result
@@ -121,37 +121,6 @@ class Respond(GroupPage):
         assert 'form' in result
         assert type(result['form']) == dict
         return result
-
-    def create_decline_message(self, userInfo):
-        container = MIMEMultipart('alternative')
-        subject = _(u'Request to Join ') + self.groupInfo.name
-        container['Subject'] = str(Header(subject, utf8))
-        fromAddr = formataddr(('%s Support' % self.siteInfo.name,
-                                self.siteInfo.get_support_email()))
-        container['From'] = fromAddr
-        # TODO: To
-        toAddr = formataddr(('You', 'mpj17@groupsense.net'))
-        container['To'] = toAddr
-
-        newRequest = self.request
-        newRequest.form['adminId'] = self.adminInfo.id
-        newRequest.form['userId'] = userInfo.id
-        newRequest.form['email'] = ''
-        newRequest.form['mesg'] = ''
-
-        t = getMultiAdapter((self.context, newRequest),
-                            name="decline_message.txt")()
-        txt = MIMEText(t.encode(utf8), 'plain', utf8)
-        container.attach(txt)
-
-        h = getMultiAdapter((self.context, newRequest),
-                            name="decline_message.html")()
-        html = MIMEText(h.encode(utf8), 'html', utf8)
-        container.attach(html)
-
-        retval = container.as_string()
-        print retval
-        return retval
 
 
 class Request(object):
