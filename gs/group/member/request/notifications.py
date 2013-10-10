@@ -14,7 +14,7 @@
 ##############################################################################
 from urllib import quote
 from zope.cachedescriptors.property import Lazy
-from gs.content.email.base import GroupEmail
+from gs.content.email.base import GroupEmail, TextMixin
 from Products.GSGroup.interfaces import IGSMailingListInfo
 UTF8 = 'utf-8'
 
@@ -38,15 +38,13 @@ class AcceptedMessage(GroupEmail):
         return retval
 
 
-class AcceptedMessageText(AcceptedMessage):
+class AcceptedMessageText(AcceptedMessage, TextMixin):
 
     def __init__(self, context, request):
         super(AcceptedMessageText, self).__init__(context, request)
-        response = request.response
-        response.setHeader("Content-Type", 'text/plain; charset=UTF-8')
-        filename = 'welcome-to-%s.txt' % self.groupInfo.name
-        response.setHeader('Content-Disposition',
-                            'inline; filename="%s"' % filename)
+        f = 'gs-group-member-request-accept-{0}.txt'
+        filename = f.format(self.groupInfo.id)
+        self.set_header(filename)
 
 
 class DeclinedMessage(GroupEmail):
@@ -63,12 +61,10 @@ class DeclinedMessage(GroupEmail):
         return retval
 
 
-class DeclinedMessageText(AcceptedMessage):
+class DeclinedMessageText(AcceptedMessage, TextMixin):
 
     def __init__(self, context, request):
         super(DeclinedMessageText, self).__init__(context, request)
-        response = request.response
-        response.setHeader("Content-Type", 'text/plain; charset=UTF-8')
-        filename = 'welcome-to-%s.txt' % self.groupInfo.name
-        response.setHeader('Content-Disposition',
-                            'inline; filename="%s"' % filename)
+        f = 'gs-group-member-request-decline-{0}.txt'
+        filename = f.format(self.groupInfo.id)
+        self.set_header(filename)
