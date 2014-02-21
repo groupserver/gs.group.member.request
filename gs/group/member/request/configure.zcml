@@ -1,60 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Copyright © 2013 OnlineGroups.net and Contributors. -->
+<!-- All Rights Reserved. -->
+
+<!-- This software is subject to the provisions of the Zope Public -->
+<!-- License, Version 2.1 (ZPL).  A copy of the ZPL should accompany this -->
+<!-- distribution. -->
+
+<!-- THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED -->
+<!-- WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED -->
+<!-- WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND -->
+<!-- FITNESS FOR A PARTICULAR PURPOSE. -->
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="groupserver">
 
+  <include package="zope.viewlet" file="meta.zcml" />
+
   <!-- The Request page -->
-  <browser:page 
+  <browser:page
     name="request.html"
     for="gs.group.base.interfaces.IGSGroupMarker"
     class=".request.RequestForm"
     permission="zope2.View" />
 
   <!-- The HTML and TXT form of the Request Membership message that is
-     - sent to the administrator. -->  
-  <browser:page 
+     - sent to the administrator. -->
+  <browser:page
     name="request_message.html"
     for="gs.group.base.interfaces.IGSGroupMarker"
     class=".mesg.RequestMessage"
     template="browser/templates/mesg_html.pt"
     permission="zope2.View" />
-  <browser:page 
+  <browser:page
     name="request_message.txt"
-    for="Products.XWFChat.interfaces.IGSGroupFolder" 
+    for="Products.XWFChat.interfaces.IGSGroupFolder"
     class=".mesg.RequestMessage"
     template="browser/templates/mesg.pt"
     permission="zope2.View" />
 
   <!-- The Response page -->
-  <browser:page 
-    for="gs.group.base.interfaces.IGSGroupMarker"
+  <browser:page
     name="respond.html"
+    for="gs.group.base.interfaces.IGSGroupMarker"
     class=".respond.Respond"
     template="browser/templates/respond.pt"
     permission="zope2.ManageUsers" />
   <!-- The HTML and TXT form of the Accepted message that is
-     - sent from the administrator. -->  
-  <browser:page 
-    for="gs.group.base.interfaces.IGSGroupMarker"
+     - sent from the administrator. -->
+  <browser:page
     name="gs-group-member-request-accepted.html"
+    for="gs.group.base.interfaces.IGSGroupMarker"
     class=".notifications.AcceptedMessage"
     template="browser/templates/accepted.pt"
     permission="zope2.View" />
-  <browser:page 
-    for="gs.group.base.interfaces.IGSGroupMarker"
+  <browser:page
     name="gs-group-member-request-accepted.txt"
+    for="gs.group.base.interfaces.IGSGroupMarker"
     class=".notifications.AcceptedMessageText"
     template="browser/templates/accepted-txt.pt"
     permission="zope2.View" />
   <!-- The HTML and TXT form of the Decline message that is
-     - sent from the administrator. -->  
-  <browser:page 
-    for="gs.group.base.interfaces.IGSGroupMarker"
+     - sent from the administrator. -->
+  <browser:page
     name="gs-group-member-request-declined.html"
+    for="gs.group.base.interfaces.IGSGroupMarker"
     class=".notifications.DeclinedMessage"
     template="browser/templates/decline_html.pt"
     permission="zope2.View" />
-  <browser:page 
+  <browser:page
     name="gs-group-member-request-declined.txt"
     for="gs.group.base.interfaces.IGSGroupMarker"
     class=".notifications.DeclinedMessageText"
@@ -63,18 +76,18 @@
 
   <!-- The audit-event factory -->
   <utility
-    factory=".audit.AuditFactory"
     name="gs.group.member.request"
+    factory=".audit.AuditFactory"
     permission="zope.Public" />
-    
+
   <!--help-->
-  <browser:viewlet 
+  <browser:viewlet
     name="gs-group-member-request-request"
     manager="gs.help.interfaces.IUserHelp"
     template="browser/templates/help_request.pt"
     permission="zope2.Public"
     weight="1" />
-  <browser:viewlet 
+  <browser:viewlet
     name="gs-group-member-request-respond"
     manager="gs.help.interfaces.IAdminHelp"
     template="browser/templates/help_respond.pt"
@@ -82,7 +95,7 @@
     weight="3" />
 
   <!--The Admin Tab -->
-  <browser:viewlet 
+  <browser:viewlet
     name="gs-group-member-request-home-admin-tab"
     manager="gs.group.member.info.interfaces.IGroupMemberAdminLinks"
     class=".adminlist.RequestMembershipListViewlet"
@@ -92,4 +105,3 @@
     title="Request" />
 
 </configure>
-

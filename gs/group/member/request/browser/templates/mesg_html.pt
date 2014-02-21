@@ -3,7 +3,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="context/@@groupserver_email_layout/page">
   <head>
-    <title metal:fill-slot="title">Request to join 
+    <title metal:fill-slot="title">Request to join
       <tal:block replace="view/groupInfo/name">This group</tal:block>:
       <tal:block replace="view/groupInfo/name">This site</tal:block>:
     </title>
@@ -30,7 +30,7 @@
         <p>
           <strong>From:</strong>
           <a tal:attributes="href string:mailto:view/email"
-              href="#" ><code class="email" 
+              href="#" ><code class="email"
                               tal:content="view/email">some.email@address.com</code></a>
         </p>
         <tal:block content="structure view/message">
@@ -38,16 +38,16 @@
         </tal:block>
       </blockquote>
       <p>
-        Go to the 
+        Go to the
         <a tal:attributes="href string:${view/groupInfo/url}/respond.html"
            href="#">response page</a>
-        in 
+        in
         <span class="group"
               tal:content="view/groupInfo/name">your group</span>
         to accept or decline the request.
       </p>
       <p>
-        If you have any problems, email us at 
+        If you have any problems, email us at
         <a tal:attributes="href view/support"
            href="#"><code tal:content="view/siteInfo/get_support_email">this address</code></a>
       </p>

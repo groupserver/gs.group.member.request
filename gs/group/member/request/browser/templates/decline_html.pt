@@ -17,8 +17,8 @@
         Hi <span class="fn" tal:content="userInfo/name">Applicant</span>,
       </p>
       <p>
-        Your request to join 
-        <a href="#" 
+        Your request to join
+        <a href="#"
            tal:attributes="href view/groupInfo/url"
            tal:content="view/groupInfo/name">your group</a>
         has been declined.
