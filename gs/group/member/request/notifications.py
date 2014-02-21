@@ -12,6 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import unicode_literals
 from urllib import quote
 from zope.cachedescriptors.property import Lazy
 from gs.content.email.base import GroupEmail, TextMixin
@@ -23,7 +24,7 @@ class AcceptedMessage(GroupEmail):
 
     @Lazy
     def supportEmail(self):
-        m = u'Hi!\n\nI was accepted into the group {0}\n    {1}\nand...'
+        m = 'Hi!\n\nI was accepted into the group {0}\n    {1}\nand...'
         msg = m.format(self.groupInfo.name, self.groupInfo.url)
         sub = quote('Membership accepted')
         r = 'mailto:{0}?Subject={1}&body={2}'
@@ -51,8 +52,8 @@ class DeclinedMessage(GroupEmail):
 
     @Lazy
     def supportEmail(self):
-        m = u'Hi!\n\nI was declined membership of the group {0}\n    '\
-            u'{1}\nand...'
+        m = 'Hi!\n\nI was declined membership of the group {0}\n    '\
+            '{1}\nand...'
         msg = m.format(self.groupInfo.name, self.groupInfo.url)
         sub = quote('Membership declined')
         r = 'mailto:{0}?Subject={1}&body={2}'
