@@ -34,7 +34,7 @@
   <browser:page
     name="request_message.txt"
     for="Products.XWFChat.interfaces.IGSGroupFolder"
-    class=".mesg.RequestMessage"
+    class=".mesg.RequestMessageText"
     template="browser/templates/mesg.pt"
     permission="zope2.View" />
 

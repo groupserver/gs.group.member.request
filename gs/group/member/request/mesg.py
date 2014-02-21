@@ -12,13 +12,14 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import unicode_literals
 from cgi import escape
 from urllib import urlencode
 from zope.component import createObject
 from zope.cachedescriptors.property import Lazy
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('groupserver')
-from gs.content.email.base import GroupEmail
+from gs.content.email.base import GroupEmail, TextMixin
 
 
 class RequestMessage(GroupEmail):
@@ -51,15 +52,15 @@ class RequestMessage(GroupEmail):
     @Lazy
     def message(self):
         r = escape(self.mesg)
-        retval = u'<p>%s</p>' %\
-            r.replace(u'\n\n', u'</p><p>').replace(u'\n', u'<br/>')
+        retval = '<p>%s</p>' %\
+            r.replace('\n\n', '</p><p>').replace('\n', '<br/>')
         return retval
 
     @Lazy
     def support(self):
         s = 'Membership request'
-        m = u'Hi!\n\nI received a request from {0} to join the group '\
-            u'{1}\n    {2}\nand...'
+        m = 'Hi!\n\nI received a request from {0} to join the group '\
+            '{1}\n    {2}\nand...'
         msg = m.format(self.userInfo.name, self.groupInfo.name,
                         self.groupInfo.url)
         data = {'Subject': s,
@@ -68,3 +69,11 @@ class RequestMessage(GroupEmail):
         retval = 'mailto:{0}?{1}'.format(self.siteInfo.get_support_email(),
                                         urlencode(data))
         return retval
+
+
+class RequestMessageText(RequestMessage, TextMixin):
+
+    def __init__(self, context, request):
+        super(RequestMessageText, self).__init__(context, request)
+        filename = 'request-message-{0}.txt'.format(self.groupInfo.id)
+        self.set_header(filename)

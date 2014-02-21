@@ -1,8 +1,7 @@
 <tal:block>Hi <tal:block replace="view/adminInfo/name">there</tal:block>,
 
-<tal:block replace="view/userInfo/name">A person</tal:block> has requested membership of
-<tal:block replace="view/groupInfo/name">your group</tal:block>. <tal:block replace="view/userInfo/name">A person</tal:block>
-wrote the following message as part of the request.
+<tal:block define="m string:${view/userInfo/name} has requested membership of ${view/groupInfo/name}. ${view/userInfo/name} wrote the following message as part of the request:"
+           replace="python:view.fill(m)">m</tal:block>
 
   From: <tal:block replace="view/email">some.email.address.com</tal:block>
 
