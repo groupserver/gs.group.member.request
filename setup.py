@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -38,7 +38,7 @@ setup(name='gs.group.member.request',
     author='Michael JasonSmith',
     author_email='mpj17@onlinegroups.net',
     url='http://groupserver.org/',
-    license='other',
+    license='ZPL 2.1',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['gs', 'gs.group', 'gs.group.member'],
     include_package_data=True,
@@ -47,6 +47,7 @@ setup(name='gs.group.member.request',
         'setuptools',
         'pytz',
         'sqlalchemy',
+        'zope.browserpage',
         'zope.cachedescriptors',
         'zope.component',
         'zope.formlib',
@@ -54,9 +55,11 @@ setup(name='gs.group.member.request',
         'zope.interface',
         'zope.schema',
         'zope.sqlalchemy',
+        'zope.tal',
+        'zope.tales',
         'Zope2',
         'gs.content.email.base',
-        'gs.content.email.layout',
+        'gs.content.email.layout',  # For the notifications
         'gs.content.form',
         'gs.core',
         'gs.database',
@@ -66,6 +69,7 @@ setup(name='gs.group.member.request',
         'gs.profile.notify',
         'gs.profile.email.base',
         'gs.profile.notify',
+        'Products.GSAuditTrail',
     ],
     entry_points="""
     # -*- Entry points: -*-
