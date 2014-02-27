@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,7 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from textwrap import TextWrapper
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
@@ -29,7 +29,7 @@ utf8 = 'utf-8'
 
 class Respond(GroupPage):
     def __init__(self, group, request):
-        GroupPage.__init__(self, group, request)
+        super(Respond, self).__init__(group, request)
 
     @Lazy
     def requestQuery(self):
@@ -76,9 +76,9 @@ class Respond(GroupPage):
         form = self.context.REQUEST.form
         result = {}
         result['form'] = form
-        m = u''
+        m = ''
         if 'submitted' in form:
-            userIds = [k.split('-respond')[0] for k in form.keys()
+            userIds = [k.split('-respond')[0] for k in list(form.keys())
                 if '-respond' in k]
             responses = [form['%s-respond' % k] for k in userIds]
 
@@ -95,7 +95,7 @@ class Respond(GroupPage):
                 for uid in accepted:
                     userInfo = createObject('groupserver.UserFromId',
                                             self.context, uid)
-                    m = m + (u'<li>%s</li>\n' % acceptor.accept(userInfo))
+                    m = m + ('<li>%s</li>\n' % acceptor.accept(userInfo))
                     notifier.notify(userInfo, self.adminInfo)
                     auditor.info(ACCEPT, userInfo)
 
@@ -108,10 +108,10 @@ class Respond(GroupPage):
                 for uid in declined:
                     userInfo = createObject('groupserver.UserFromId',
                                             self.context, uid)
-                    m = m + (u'<li>%s</li>\n' % acceptor.decline(userInfo))
+                    m = m + ('<li>%s</li>\n' % acceptor.decline(userInfo))
                     auditor.info(DECLINE, userInfo)
                     notifier.notify(userInfo, self.adminInfo)
-            result['message'] = u'<ul>\n{0}</ul>'.format(m)
+            result['message'] = '<ul>\n{0}</ul>'.format(m)
 
             assert 'error' in result
             assert type(result['error']) == bool

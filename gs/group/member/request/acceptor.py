@@ -12,7 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from zope.cachedescriptors.property import Lazy
 from Products.CustomUserFolder.userinfo import userInfo_to_anchor
 from gs.group.member.base import user_member_of_group
@@ -34,16 +34,16 @@ class Acceptor(object):
         self.requestQuery.accept_request(userInfo.id, self.groupInfo.id,
                                             self.adminInfo.id)
         if user_member_of_group(userInfo, self.groupInfo):
-            retval = u'%s is already a member of the group, so '\
-                u'the request was ignored.' % userInfo_to_anchor(userInfo)
+            retval = '%s is already a member of the group, so '\
+                'the request was ignored.' % userInfo_to_anchor(userInfo)
         else:
             joiningUser = IGSJoiningUser(userInfo)
             joiningUser.silent_join(self.groupInfo)
-            retval = u'Accepted the request from %s' % \
+            retval = 'Accepted the request from %s' % \
                             userInfo_to_anchor(userInfo)
         return retval
 
     def decline(self, userInfo):
         self.requestQuery.decline_request(userInfo.id, self.groupInfo.id,
             self.adminInfo.id)
-        return u'Declined the request from %s' % userInfo_to_anchor(userInfo)
+        return 'Declined the request from %s' % userInfo_to_anchor(userInfo)

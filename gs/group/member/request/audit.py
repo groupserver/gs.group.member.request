@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,18 +12,18 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from pytz import UTC
+from __future__ import unicode_literals
 from datetime import datetime
+import logging
+SUBSYSTEM = 'gs.group.member.request'
+log = logging.getLogger(SUBSYSTEM)
+from pytz import UTC
 from zope.component.interfaces import IFactory
 from zope.cachedescriptors.property import Lazy
 from zope.interface import implements, implementedBy
 from Products.XWFCore.XWFUtils import munge_date
 from Products.GSAuditTrail import IAuditEvent, BasicAuditEvent, AuditQuery
 from Products.GSAuditTrail.utils import event_id_from_data
-SUBSYSTEM = 'gs.group.member.request'
-import logging
-log = logging.getLogger(SUBSYSTEM)
-
 UNKNOWN = '0'  # Unknown is always "0"
 REQUEST = '1'
 ACCEPT = '2'
@@ -35,14 +35,13 @@ class AuditFactory(object):
     """
     implements(IFactory)
 
-    title = u'GroupServer Membership Request Audit Event Factory'
-    description = u'Creates a GroupServer event auditor for request events'
+    title = 'GroupServer Membership Request Audit Event Factory'
+    description = 'Creates a GroupServer event auditor for request events'
 
     def __call__(self, context, event_id, code, date,
         userInfo, instanceUserInfo, siteInfo, groupInfo,
         instanceDatum='', supplementaryDatum='', subsystem=''):
-        """Create an event
-        """
+        """Create an event"""
         assert subsystem == SUBSYSTEM, 'Subsystems do not match'
 
         if code == REQUEST:
@@ -78,21 +77,23 @@ class RequestEvent(BasicAuditEvent):
           instanceUserInfo, siteInfo, groupInfo, None, None,
           SUBSYSTEM)
 
-    def __str__(self):
-        retval = u'%s (%s) requested membership of the group %s (%s).' %\
+    def __unicode__(self):
+        retval = '%s (%s) requested membership of the group %s (%s).' %\
            (self.instanceUserInfo.name, self.instanceUserInfo.id,
             self.groupInfo.name, self.groupInfo.id)
-        retval = retval.encode('ascii', 'ignore')
+        return retval
+
+    def __str__(self):
+        retval = unicode(self).encode('ascii', 'ignore')
         return retval
 
     @property
     def xhtml(self):
-        cssClass = u'audit-event groupserver-group-member-request-%s' %\
-          self.code
-        retval = u'<span class="%s">Requested membership of %s</span>' %\
+        cssClass = 'audit-event groupserver-group-member-request-%s' % self.code
+        retval = '<span class="%s">Requested membership of %s</span>' %\
           (cssClass, self.groupInfo.name)
 
-        retval = u'%s (%s)' % \
+        retval = '%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
 
@@ -110,24 +111,25 @@ class AcceptEvent(BasicAuditEvent):
           instanceUserInfo, siteInfo, groupInfo, None, None,
           SUBSYSTEM)
 
-    def __str__(self):
-        retval = u'%s (%s) accepted the request from %s (%s) to join '\
-            u'the group %s (%s).' %\
+    def __unicode__(self):
+        retval = '%s (%s) accepted the request from %s (%s) to join '\
+            'the group %s (%s).' %\
            (self.userInfo.name, self.userInfo.id,
             self.instanceUserInfo.name, self.instanceUserInfo.id,
             self.groupInfo.name, self.groupInfo.id)
-        retval = retval.encode('ascii', 'ignore')
+        return retval
+
+    def __str__(self):
+        retval = unicode(self).encode('ascii', 'ignore')
         return retval
 
     @property
     def xhtml(self):
-        cssClass = u'audit-event groupserver-group-member-accept-%s' %\
-          self.code
-        retval = u'<span class="%s">%s accepted the request to join '\
-            u'%s</span>' %\
+        cssClass = 'audit-event groupserver-group-member-accept-%s' % self.code
+        retval = '<span class="%s">%s accepted the request to join %s</span>' %\
           (cssClass, self.userInfo.name, self.groupInfo.name)
 
-        retval = u'%s (%s)' % \
+        retval = '%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
 
@@ -146,21 +148,22 @@ class DeclineEvent(BasicAuditEvent):
           instanceUserInfo, siteInfo, groupInfo, None, None,
           SUBSYSTEM)
 
-    def __str__(self):
-        retval = u'%s (%s) declined the request from %s (%s) to join '\
-            u'the group %s (%s).' %\
+    def __unicode__(self):
+        retval = '%s (%s) declined the request from %s (%s) to join '\
+            'the group %s (%s).' %\
            (self.userInfo.name, self.userInfo.id,
             self.instanceUserInfo.name, self.instanceUserInfo.id,
             self.groupInfo.name, self.groupInfo.id)
-        retval = retval.encode('ascii', 'ignore')
+        return retval
+
+    def __str__(self):
+        retval = unicode(self).encode('ascii', 'ignore')
         return retval
 
     @property
     def xhtml(self):
-        cssClass = u'audit-event groupserver-group-member-decline-%s' %\
-          self.code
-        retval = u'<span class="%s">%s declined the request to join '\
-            u'%s</span>' %\
+        cssClass = 'audit-event groupserver-group-member-decline-%s' % self.code
+        retval = '<span class="%s">%s declined the request to join %s</span>' %\
           (cssClass, self.userInfo.name, self.groupInfo.name)
 
         retval = u'%s (%s)' % \
