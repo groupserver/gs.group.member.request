@@ -21,7 +21,7 @@
                   ec string:alert-block alert-error;"
       tal:condition="python:result and result.has_key('message')"
       tal:attributes="class python:ec if e else mc" role="region">
-        <button aria-hidden="true" type="button" class="close" 
+        <button aria-hidden="true" type="button" class="close"
           data-dismiss="alert">&times;</button>
         <div class="gs-content-form-message-status"
              tal:content="structure result/message"/>
@@ -35,7 +35,7 @@
               class="screen-reader-text">Site homepage</span></a>
       </li>
       <li>
-        <a class="group" 
+        <a class="group"
            tal:attributes="href string:${view/groupInfo/relativeURL}/">
           <strong
             tal:content="view/groupInfo/name">This group</strong></a>
@@ -45,10 +45,10 @@
     <div metal:fill-slot="body" id="gs-group-member-request-respond"
       tal:define="ctx view/context;
                   md python:modules['Products.XWFCore.XWFUtils'].munge_date;">
-      <h1>Respond to Membership Requests</h1>
-      <form id="action" 
+      <h1>Respond to membership requests</h1>
+      <form id="action"
         tal:condition="view/requests"
-        enctype="multipart/form-data" method="post" action="." 
+        enctype="multipart/form-data" method="post" action="."
         tal:attributes="action request/URL">
         <p tal:condition="python:len(view.requests)>1">
           To respond to the requests select <samp>Accept</samp> or
@@ -60,9 +60,9 @@
           or <samp>Decline</samp> and click the <samp
           class="button">Respond</samp> button.
         </p>
-        <div class="user-request" 
+        <div class="user-request"
           tal:repeat="request view/requests">
-          <h2 class="fn" 
+          <h2 class="fn"
             tal:attributes="id string:user-${request/userInfo/id}"
             tal:content="request/userInfo/name">
             The Applicant
@@ -79,7 +79,7 @@
             <p>
               <strong>From:</strong>
               <a tal:attributes="href string:mailto:${request/email}"
-                href="#"><code 
+                href="#"><code
                     tal:content="request/email"
                     class="email">email</code></a>
             </p>
@@ -89,14 +89,14 @@
           </blockquote>
           <fieldset tal:define="uid request/userInfo/id">
             <div class="radioItem">
-              <input type="radio" checked="" 
+              <input type="radio" checked=""
                 value="accept" class="radioType"
-                name="foo" id="foo-accept" 
+                name="foo" id="foo-accept"
                 tal:attributes="name string:${uid}-respond;
                   id string:${uid}-accept;
-                  value string:${uid}-accept"/> 
+                  value string:${uid}-accept"/>
               <label class="radioLabel" id="foo-accept-label"
-                for="foo-accept" 
+                for="foo-accept"
                 tal:attributes="id string:${uid}-accept-label;
                   for string:${uid}-accept">Accept the request to join
                   <span class="group"
@@ -107,9 +107,9 @@
                 name="foo" id="foo-decline"
                 tal:attributes="name string:${uid}-respond;
                   id string:${uid}-decline;
-                  value string:${uid}-decline"/> 
+                  value string:${uid}-decline"/>
               <label class="radioLabel" id="foo-decline-label"
-                for="foo-decline" 
+                for="foo-decline"
                 tal:attributes="id string:${uid}-decline-label;
                   for string:${uid}-decline">Decline the request to join
                   <span class="group"
@@ -120,7 +120,7 @@
         <input type="hidden" class="hidden" name="submitted" value=""/>
         <div class="buttons">
           <div class="formelementbutton">
-            <input class="button btn" type="submit" value="Respond" 
+            <input class="button btn" type="submit" value="Respond"
                    id="respond-button" name="respond-button"/>
           </div>
         </div><!--buttons-->
@@ -134,4 +134,3 @@
     </div><!--gs-group-member-request-respond-->
   </body>
 </html>
-
