@@ -60,7 +60,7 @@ setup(name='gs.group.member.request',
         'Zope2',
         'gs.content.email.base',
         'gs.content.email.layout',  # For the notifications
-        'gs.content.form',
+        'gs.content.form.base',
         'gs.core',
         'gs.database',
         'gs.group.base',
