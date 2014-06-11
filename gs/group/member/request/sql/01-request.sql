@@ -7,7 +7,7 @@ CREATE TABLE user_group_member_request (
   user_id             TEXT                      NOT NULL,
   site_id             TEXT                      NOT NULL,
   group_id            TEXT                      NOT NULL,
-  request_date        TIMESTAMP WITH TIME ZONE  NOT NULL,
+  request_date        TIMESTAMP WITH TIME ZONE  NOT NULL DEFAULT NOW(),
   message             TEXT,
   responding_user_id  TEXT,
   response_date       TIMESTAMP WITH TIME ZONE,
