@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import unicode_literals
 from datetime import datetime
 import logging
@@ -38,25 +38,26 @@ class AuditFactory(object):
     title = 'GroupServer Membership Request Audit Event Factory'
     description = 'Creates a GroupServer event auditor for request events'
 
-    def __call__(self, context, event_id, code, date,
-        userInfo, instanceUserInfo, siteInfo, groupInfo,
-        instanceDatum='', supplementaryDatum='', subsystem=''):
+    def __call__(self, context, event_id, code, date, userInfo,
+                 instanceUserInfo, siteInfo, groupInfo, instanceDatum='',
+                 supplementaryDatum='', subsystem=''):
         """Create an event"""
         assert subsystem == SUBSYSTEM, 'Subsystems do not match'
 
         if code == REQUEST:
-            event = RequestEvent(context, event_id, date,
-                        instanceUserInfo, siteInfo, groupInfo)
+            event = RequestEvent(context, event_id, date, instanceUserInfo,
+                                 siteInfo, groupInfo)
         elif code == ACCEPT:
             event = AcceptEvent(context, event_id, date, userInfo,
-                        instanceUserInfo, siteInfo, groupInfo)
+                                instanceUserInfo, siteInfo, groupInfo)
         elif code == DECLINE:
             event = DeclineEvent(context, event_id, date, userInfo,
-                        instanceUserInfo, siteInfo, groupInfo)
+                                 instanceUserInfo, siteInfo, groupInfo)
         else:
             event = BasicAuditEvent(context, event_id, UNKNOWN, date,
-              userInfo, instanceUserInfo, siteInfo, groupInfo,
-              instanceDatum, supplementaryDatum, SUBSYSTEM)
+                                    userInfo, instanceUserInfo, siteInfo,
+                                    groupInfo, instanceDatum,
+                                    supplementaryDatum, SUBSYSTEM)
         assert event
         return event
 
@@ -69,32 +70,26 @@ class RequestEvent(BasicAuditEvent):
     '''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, instanceUserInfo,
-                  siteInfo, groupInfo):
-        """ Create a request event
-        """
-        BasicAuditEvent.__init__(self, context, id, REQUEST, d, None,
-          instanceUserInfo, siteInfo, groupInfo, None, None,
-          SUBSYSTEM)
+    def __init__(self, context, eventId, d, instanceUserInfo, siteInfo,
+                 groupInfo):
+        super(RequestEvent, self).__init__(
+            context, eventId, REQUEST, d, None, instanceUserInfo, siteInfo,
+            groupInfo, None, None, SUBSYSTEM)
 
     def __unicode__(self):
         retval = '%s (%s) requested membership of the group %s (%s).' %\
-           (self.instanceUserInfo.name, self.instanceUserInfo.id,
-            self.groupInfo.name, self.groupInfo.id)
-        return retval
-
-    def __str__(self):
-        retval = unicode(self).encode('ascii', 'ignore')
+            (self.instanceUserInfo.name, self.instanceUserInfo.id,
+             self.groupInfo.name, self.groupInfo.id)
         return retval
 
     @property
     def xhtml(self):
-        cssClass = 'audit-event groupserver-group-member-request-%s' % self.code
+        cssClass = 'audit-event groupserver-group-member-request-%s' % \
+            self.code
         retval = '<span class="%s">Requested membership of %s</span>' %\
-          (cssClass, self.groupInfo.name)
+            (cssClass, self.groupInfo.name)
 
-        retval = '%s (%s)' % \
-          (retval, munge_date(self.context, self.date))
+        retval = '%s (%s)' % (retval, munge_date(self.context, self.date))
         return retval
 
 
@@ -103,34 +98,29 @@ class AcceptEvent(BasicAuditEvent):
     '''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, userInfo, instanceUserInfo,
-                  siteInfo, groupInfo):
-        """ Create a request event
-        """
-        BasicAuditEvent.__init__(self, context, id, ACCEPT, d, userInfo,
-          instanceUserInfo, siteInfo, groupInfo, None, None,
-          SUBSYSTEM)
+    def __init__(self, context, eventId, d, userInfo, instanceUserInfo,
+                 siteInfo, groupInfo):
+        super(AcceptEvent, self).__init__(
+            context, eventId, ACCEPT, d, userInfo, instanceUserInfo,
+            siteInfo, groupInfo, None, None, SUBSYSTEM)
 
     def __unicode__(self):
         retval = '%s (%s) accepted the request from %s (%s) to join '\
             'the group %s (%s).' %\
-           (self.userInfo.name, self.userInfo.id,
-            self.instanceUserInfo.name, self.instanceUserInfo.id,
-            self.groupInfo.name, self.groupInfo.id)
-        return retval
-
-    def __str__(self):
-        retval = unicode(self).encode('ascii', 'ignore')
+            (self.userInfo.name, self.userInfo.id,
+             self.instanceUserInfo.name, self.instanceUserInfo.id,
+             self.groupInfo.name, self.groupInfo.id)
         return retval
 
     @property
     def xhtml(self):
-        cssClass = 'audit-event groupserver-group-member-accept-%s' % self.code
-        retval = '<span class="%s">%s accepted the request to join %s</span>' %\
-          (cssClass, self.userInfo.name, self.groupInfo.name)
+        cssClass = 'audit-event groupserver-group-member-accept-%s' % \
+            self.code
+        retval = '<span class="%s">%s accepted the request to join '\
+            '%s</span>' % (cssClass, self.userInfo.name,
+                           self.groupInfo.name)
 
-        retval = '%s (%s)' % \
-          (retval, munge_date(self.context, self.date))
+        retval = '%s (%s)' % (retval, munge_date(self.context, self.date))
         return retval
 
 
@@ -140,34 +130,29 @@ class DeclineEvent(BasicAuditEvent):
     '''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, userInfo, instanceUserInfo,
-                  siteInfo, groupInfo):
-        """ Create a request event
-        """
-        BasicAuditEvent.__init__(self, context, id, DECLINE, d, userInfo,
-          instanceUserInfo, siteInfo, groupInfo, None, None,
-          SUBSYSTEM)
+    def __init__(self, context, eventId, d, userInfo, instanceUserInfo,
+                 siteInfo, groupInfo):
+        super(DeclineEvent, self).__init__(
+            context, eventId, DECLINE, d, userInfo, instanceUserInfo,
+            siteInfo, groupInfo, None, None, SUBSYSTEM)
 
     def __unicode__(self):
         retval = '%s (%s) declined the request from %s (%s) to join '\
             'the group %s (%s).' %\
-           (self.userInfo.name, self.userInfo.id,
-            self.instanceUserInfo.name, self.instanceUserInfo.id,
-            self.groupInfo.name, self.groupInfo.id)
-        return retval
-
-    def __str__(self):
-        retval = unicode(self).encode('ascii', 'ignore')
+            (self.userInfo.name, self.userInfo.id,
+             self.instanceUserInfo.name, self.instanceUserInfo.id,
+             self.groupInfo.name, self.groupInfo.id)
         return retval
 
     @property
     def xhtml(self):
-        cssClass = 'audit-event groupserver-group-member-decline-%s' % self.code
-        retval = '<span class="%s">%s declined the request to join %s</span>' %\
-          (cssClass, self.userInfo.name, self.groupInfo.name)
+        cssClass = 'audit-event groupserver-group-member-decline-%s' % \
+            self.code
+        retval = '<span class="%s">%s declined the request to join '\
+            '%s</span>' %\
+            (cssClass, self.userInfo.name, self.groupInfo.name)
 
-        retval = u'%s (%s)' % \
-          (retval, munge_date(self.context, self.date))
+        retval = '%s (%s)' % (retval, munge_date(self.context, self.date))
         return retval
 
 
@@ -183,14 +168,14 @@ class RequestAuditor(object):
         return retval
 
     def info(self, instanceUser):
-        eventId = event_id_from_data(instanceUser, instanceUser,
-            self.siteInfo, REQUEST, '',
-            '%s-%s' % (self.groupInfo.name, self.groupInfo.id))
+        mushForId = '%s-%s' % (self.groupInfo.name, self.groupInfo.id)
+        eventId = event_id_from_data(
+            instanceUser, instanceUser, self.siteInfo, REQUEST, '',
+            mushForId.encode('ascii', 'xmlcharrefreplace'))
         d = datetime.now(UTC)
         f = AuditFactory()
-        e = f(self.context, eventId, REQUEST, d,
-                instanceUser, instanceUser,
-                self.siteInfo, self.groupInfo, '', '', SUBSYSTEM)
+        e = f(self.context, eventId, REQUEST, d, instanceUser, instanceUser,
+              self.siteInfo, self.groupInfo, '', '', SUBSYSTEM)
 
         self.queries.store(e)
         log.info(e)
@@ -212,12 +197,13 @@ class ResponseAuditor(object):
 
     def info(self, code, instanceUserInfo):
         d = datetime.now(UTC)
-        eventId = event_id_from_data(self.userInfo,
-            instanceUserInfo, self.siteInfo, code, '',
-            '%s-%s' % (self.groupInfo.name, self.groupInfo.id))
-        e = self.factory(self.context, eventId, code, d,
-                        self.userInfo, instanceUserInfo,
-                        self.siteInfo, self.groupInfo, '', '', SUBSYSTEM)
+        mushForId = '%s-%s' % (self.groupInfo.name, self.groupInfo.id)
+        eventId = event_id_from_data(
+            self.userInfo, instanceUserInfo,  self.siteInfo, code, '',
+            mushForId.encode('ascii', 'xmlcharrefreplace'))
+        e = self.factory(self.context, eventId, code, d, self.userInfo,
+                         instanceUserInfo, self.siteInfo, self.groupInfo,
+                         '', '', SUBSYSTEM)
 
         self.queries.store(e)
         log.info(e)
