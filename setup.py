@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 import codecs
 import os
 from setuptools import setup, find_packages
@@ -19,12 +19,14 @@ from version import get_version
 
 version = get_version()
 
-with codecs.open('README.txt', encoding='utf-8') as f:
+with codecs.open('README.rst', encoding='utf-8') as f:
     long_description = f.read()
-with codecs.open(os.path.join("docs", "HISTORY.txt"), encoding='utf-8') as f:
+with codecs.open(os.path.join("docs", "HISTORY.rst"),
+                 encoding='utf-8') as f:
     long_description += '\n' + f.read()
 
-setup(name='gs.group.member.request',
+setup(
+    name='gs.group.member.request',
     version=version,
     description="Request membership in a GroupServer group",
     long_description=long_description,
@@ -38,8 +40,8 @@ setup(name='gs.group.member.request',
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python",
         "Topic :: Software Development :: Libraries :: Python Modules",
-      ],
-    keywords='groupserver member request private secret',
+    ],
+    keywords='groupserver, member, request, private,',
     author='Michael JasonSmith',
     author_email='mpj17@onlinegroups.net',
     url='https://source.iopen.net/groupserver/gs.group.member.request/',
