@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import absolute_import, unicode_literals
 from textwrap import TextWrapper
 from zope.cachedescriptors.property import Lazy
@@ -41,8 +41,8 @@ class Respond(GroupPage):
         rd = self.requestQuery.current_requests(self.groupInfo.id,
                                                 self.siteInfo.id)
         retval = [Request(self.context, r['request_id'], r['user_id'],
-                            r['message'])
-                    for r in rd]
+                          r['message'])
+                  for r in rd]
         assert type(retval) == list
         return retval
 
@@ -79,17 +79,17 @@ class Respond(GroupPage):
         m = ''
         if 'submitted' in form:
             userIds = [k.split('-respond')[0] for k in list(form.keys())
-                if '-respond' in k]
+                       if '-respond' in k]
             responses = [form['%s-respond' % k] for k in userIds]
 
             result['error'] = False
 
             acceptor = Acceptor(self.adminInfo, self.groupInfo)
             auditor = ResponseAuditor(self.context, self.adminInfo,
-                                        self.groupInfo, self.siteInfo)
+                                      self.groupInfo, self.siteInfo)
 
             accepted = [k.split('-accept')[0] for k in responses
-                          if '-accept' in k]
+                        if '-accept' in k]
             if accepted:
                 notifier = NotifyAccepted(self.context, self.request)
                 for uid in accepted:
@@ -125,8 +125,9 @@ class Respond(GroupPage):
 
 class Request(object):
     email_wrapper = TextWrapper(width=72, expand_tabs=False,
-                        replace_whitespace=False, break_on_hyphens=False,
-                        break_long_words=False)
+                                replace_whitespace=False,
+                                break_on_hyphens=False,
+                                break_long_words=False)
 
     def __init__(self, context, requestId, userId, message):
         self.context = context
@@ -137,7 +138,7 @@ class Request(object):
     @Lazy
     def userInfo(self):
         retval = createObject('groupserver.UserFromId', self.context,
-                                self.userId)
+                              self.userId)
         assert not(retval.anonymous)
         return retval
 

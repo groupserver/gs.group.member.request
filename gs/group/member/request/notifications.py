@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import unicode_literals
 from urllib import quote
 from zope.cachedescriptors.property import Lazy
@@ -29,7 +29,7 @@ class AcceptedMessage(GroupEmail):
         sub = quote('Membership accepted')
         r = 'mailto:{0}?Subject={1}&body={2}'
         retval = r.format(self.siteInfo.get_support_email(), sub,
-                            quote(msg.encode(UTF8)))
+                          quote(msg.encode(UTF8)))
         return retval
 
     @Lazy
@@ -58,7 +58,7 @@ class DeclinedMessage(GroupEmail):
         sub = quote('Membership declined')
         r = 'mailto:{0}?Subject={1}&body={2}'
         retval = r.format(self.siteInfo.get_support_email(), sub,
-                            quote(msg.encode(UTF8)))
+                          quote(msg.encode(UTF8)))
         return retval
 
 
