@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.2 (2014-09-16)
+2.2.2 (2014-10-10)
 ------------------
 
 * Fixed an ``Unicode Decode Error`` caused by the generation of
