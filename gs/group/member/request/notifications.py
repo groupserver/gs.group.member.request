@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ############################################################################
 #
-# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,8 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ############################################################################
-from __future__ import unicode_literals
-from urllib import quote
+from __future__ import absolute_import, print_function, unicode_literals
 from zope.cachedescriptors.property import Lazy
 from gs.content.email.base import GroupEmail, TextMixin
 from Products.GSGroup.interfaces import IGSMailingListInfo
@@ -26,10 +25,8 @@ class AcceptedMessage(GroupEmail):
     def supportEmail(self):
         m = 'Hi!\n\nI was accepted into the group {0}\n    {1}\nand...'
         msg = m.format(self.groupInfo.name, self.groupInfo.url)
-        sub = quote('Membership accepted')
-        r = 'mailto:{0}?Subject={1}&body={2}'
-        retval = r.format(self.siteInfo.get_support_email(), sub,
-                          quote(msg.encode(UTF8)))
+        sub = 'Membership accepted'
+        retval = self.mailto(self.siteInfo.get_support_email(), sub, msg)
         return retval
 
     @Lazy
@@ -55,10 +52,8 @@ class DeclinedMessage(GroupEmail):
         m = 'Hi!\n\nI was declined membership of the group {0}\n    '\
             '{1}\nand...'
         msg = m.format(self.groupInfo.name, self.groupInfo.url)
-        sub = quote('Membership declined')
-        r = 'mailto:{0}?Subject={1}&body={2}'
-        retval = r.format(self.siteInfo.get_support_email(), sub,
-                          quote(msg.encode(UTF8)))
+        sub = 'Membership declined'
+        retval = self.mailto(self.siteInfo.get_support_email(), sub, msg)
         return retval
 
 
