@@ -14,7 +14,7 @@
                      adminInfo options/adminInfo | view/loggedInUserInfo;">
       <h2>Membership accepted</h2>
       <p>
-        Dear
+        Hello
         <span tal:content="userInfo/name">New Member</span>,
       </p>
       <p>
