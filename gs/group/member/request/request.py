@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014, 2016 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,7 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals, print_function
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject, getMultiAdapter
 from zope.formlib import form
@@ -21,10 +21,9 @@ _ = MessageFactory('groupserver')
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from gs.core import to_id, to_ascii
 from gs.group.base import GroupForm
-from gs.group.member.base import user_member_of_group
+from gs.group.member.base import (user_member_of_group, GroupAdminMembers, SiteAdminMembers, )
 from gs.profile.notify.sender import MessageSender
 from gs.profile.email.base.emailuser import EmailUser
-from Products.GSGroupMember.groupMembersInfo import GSGroupMembersInfo
 from .interfaces import IGSRequestMembership
 from .queries import RequestQuery
 from .audit import RequestAuditor
@@ -39,7 +38,7 @@ class RequestForm(GroupForm):
     def __init__(self, group, request):
         super(RequestForm, self).__init__(group, request)
         h = request.response.getHeader('Content-Type')
-        self.oldContentType = to_ascii(h if h else 'text/html')
+        self.oldContentType = to_ascii(h if h else b'text/html')
 
     @Lazy
     def userInfo(self):
@@ -77,23 +76,34 @@ class RequestForm(GroupForm):
             self.request, form=self, data=data,
             ignore_request=ignore_request)
 
+    @Lazy
+    def admins(self):
+        retval = GroupAdminMembers(self.context)
+        if len(retval) == 0:
+            retval = SiteAdminMembers(self.context)
+            if len(retval) == 0:
+                retval = self.siteInfo.site_admins
+                if len(retval) == 0:
+                    m = 'The group {0} ({1}) and the site {2} ({3}) lacks any administrators.'
+                    msg = m.format(self.groupInfo.name, self.groupInfo.id,
+                                   self.siteInfo.name, self.siteInfo.id)
+                    raise ValueError(msg)
+        return retval
+
     @form.action(label=_('Request'), failure='handle_failure')
     def handle_request(self, action, data):
         self.status = ''
         requestId = self.create_request_id(data['fromAddress'], data['message'])
-        self.requestQuery.add_request(requestId, self.userInfo.id,
-            data['message'], self.siteInfo.id, self.groupInfo.id)
+        self.requestQuery.add_request(requestId, self.userInfo.id, data['message'],
+                                      self.siteInfo.id, self.groupInfo.id)
 
-        mi = GSGroupMembersInfo(self.context)
-        admins = mi.groupAdmins and mi.groupAdmins or mi.siteAdmins
-        for admin in admins:
+        for admin in self.admins:
             self.send_message(data['fromAddress'], admin, data['message'])
 
         ra = RequestAuditor(self.context, self.groupInfo, self.siteInfo)
         ra.info(self.userInfo)
 
-        l = '<a href="%s">%s</a>. ' % (self.groupInfo.relativeURL,
-                                        self.groupInfo.name)
+        l = '<a href="%s">%s</a>. ' % (self.groupInfo.relativeURL, self.groupInfo.name)
         self.status = _('<p>You have requested membership of ') + l +\
             _('You will be contacted by the group administator when '
                 'your request is considered.</p>')
@@ -107,14 +117,11 @@ class RequestForm(GroupForm):
         newRequest.form['mesg'] = message
         newRequest.form['adminId'] = adminInfo.id
 
-        txt = getMultiAdapter((self.context, newRequest),
-                            name="request_message.txt")()
-        html = getMultiAdapter((self.context, newRequest),
-                            name="request_message.html")()
+        txt = getMultiAdapter((self.context, newRequest), name="request_message.txt")()
+        html = getMultiAdapter((self.context, newRequest), name="request_message.html")()
         sender.send_message(subject, txt, html, fromAddress)
 
-        self.request.response.setHeader(to_ascii('Content-Type'),
-                                            self.oldContentType)
+        self.request.response.setHeader(to_ascii('Content-Type'), self.oldContentType)
 
     def create_request_id(self, fromAddress, message):
         istr = fromAddress + message + self.userInfo.id + \
