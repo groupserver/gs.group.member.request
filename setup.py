@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ############################################################################
 #
-# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014, 2016 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -73,6 +73,7 @@ setup(
         'gs.core',
         'gs.database',
         'gs.group.base',
+        'gs.group.member.base',
         'gs.group.member.join',
         'gs.group.member.viewlet',
         'gs.profile.notify',
@@ -80,6 +81,8 @@ setup(
         'gs.profile.notify',
         'Products.GSAuditTrail',
     ],
+    test_suite="{0}.tests.test_all".format(name),
+    tests_require=['mock', ],
     entry_points="""
     # -*- Entry points: -*-
     """,)
