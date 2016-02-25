@@ -7,7 +7,7 @@ Request membership of a private group
 
 :Author: `Michael JasonSmith`_
 :Contact: Michael JasonSmith <mpj17@onlinegroups.net>
-:Date: 2013-10-10
+:Date: 2016-02-25
 :Organization: `GroupServer.org`_
 :Copyright: This document is licensed under a
   `Creative Commons Attribution-Share Alike 4.0 International License`_
@@ -118,7 +118,10 @@ notification`_.
 Resources
 =========
 
-- Code repository: https://github.com/groupserver/gs.group.member.request
+- Translations:
+  https://www.transifex.com/groupserver/gs-group-member-request/
+- Code repository:
+  https://github.com/groupserver/gs.group.member.request
 - Questions and comments to http://groupserver.org/groups/development
 - Report bugs at https://redmine.iopen.net/projects/groupserver
 
