@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2016 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,7 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import, unicode_literals, print_function
 from zope.cachedescriptors.property import Lazy
 from Products.CustomUserFolder.userinfo import userInfo_to_anchor
 from gs.group.member.base import user_member_of_group
@@ -31,19 +31,16 @@ class Acceptor(object):
         return retval
 
     def accept(self, userInfo):
-        self.requestQuery.accept_request(userInfo.id, self.groupInfo.id,
-                                            self.adminInfo.id)
+        self.requestQuery.accept_request(userInfo.id, self.groupInfo.id, self.adminInfo.id)
         if user_member_of_group(userInfo, self.groupInfo):
             retval = '%s is already a member of the group, so '\
                 'the request was ignored.' % userInfo_to_anchor(userInfo)
         else:
             joiningUser = IGSJoiningUser(userInfo)
             joiningUser.silent_join(self.groupInfo)
-            retval = 'Accepted the request from %s' % \
-                            userInfo_to_anchor(userInfo)
+            retval = 'Accepted the request from %s' % userInfo_to_anchor(userInfo)
         return retval
 
     def decline(self, userInfo):
-        self.requestQuery.decline_request(userInfo.id, self.groupInfo.id,
-            self.adminInfo.id)
+        self.requestQuery.decline_request(userInfo.id, self.groupInfo.id, self.adminInfo.id)
         return 'Declined the request from %s' % userInfo_to_anchor(userInfo)

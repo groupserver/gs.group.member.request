@@ -12,19 +12,20 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function, absolute_import
 from zope.interface import Interface
 from zope.schema import Text, Choice
 
 
 class IGSRequestMembership(Interface):
-    fromAddress = Choice(title='From',
-        description='The email address that you want in the "From" '
-          'line in the email you send.',
+    fromAddress = Choice(
+        title='From',
+        description='The email address that you want in the "From" line in the email you send.',
         vocabulary='EmailAddressesForLoggedInUser',
         required=True)
 
-    message = Text(title='Message',
-        description='The message you want to send to the administrator '
-            'explaining why you should be a member of the group.',
+    message = Text(
+        title='Message',
+        description='The message you want to send to the administrator explaining why you should '
+        'be a member of the group.',
         required=True)
