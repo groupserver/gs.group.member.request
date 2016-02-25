@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014, 2016 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -14,7 +14,6 @@
 ##############################################################################
 from __future__ import unicode_literals
 from cgi import escape
-from urllib import urlencode
 from zope.component import createObject
 from zope.cachedescriptors.property import Lazy
 from zope.i18nmessageid import MessageFactory
@@ -38,15 +37,13 @@ class RequestMessage(GroupEmail):
     @Lazy
     def userInfo(self):
         assert self.userId
-        retval = createObject('groupserver.UserFromId', self.context,
-                                self.userId)
+        retval = createObject('groupserver.UserFromId', self.context, self.userId)
         return retval
 
     @Lazy
     def adminInfo(self):
         assert self.adminId
-        retval = createObject('groupserver.UserFromId', self.context,
-                                self.adminId)
+        retval = createObject('groupserver.UserFromId', self.context, self.adminId)
         return retval
 
     @Lazy
@@ -61,13 +58,8 @@ class RequestMessage(GroupEmail):
         s = 'Membership request'
         m = 'Hi!\n\nI received a request from {0} to join the group '\
             '{1}\n    {2}\nand...'
-        msg = m.format(self.userInfo.name, self.groupInfo.name,
-                        self.groupInfo.url)
-        data = {'Subject': s,
-                  'body': msg.encode('UTF-8'), }
-
-        retval = 'mailto:{0}?{1}'.format(self.siteInfo.get_support_email(),
-                                        urlencode(data))
+        msg = m.format(self.userInfo.name, self.groupInfo.name, self.groupInfo.url)
+        retval = self.mailto(self.siteInfo.get_support_email(), s, msg)
         return retval
 
 

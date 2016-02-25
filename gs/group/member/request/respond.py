@@ -38,11 +38,8 @@ class Respond(GroupPage):
 
     @Lazy
     def requests(self):
-        rd = self.requestQuery.current_requests(self.groupInfo.id,
-                                                self.siteInfo.id)
-        retval = [Request(self.context, r['request_id'], r['user_id'],
-                          r['message'])
-                  for r in rd]
+        retval = [Request(self.context, r['request_id'], r['user_id'], r['message'])
+                  for r in self.requestQuery.current_requests(self.groupInfo.id, self.siteInfo.id)]
         assert type(retval) == list
         return retval
 
@@ -114,12 +111,9 @@ class Respond(GroupPage):
             result['message'] = '<ul>\n{0}</ul>'.format(m)
 
             assert 'error' in result
-            assert type(result['error']) == bool
             assert 'message' in result
-            assert type(result['message']) == unicode
 
         assert 'form' in result
-        assert type(result['form']) == dict
         return result
 
 

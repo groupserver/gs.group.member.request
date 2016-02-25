@@ -38,15 +38,13 @@ class NotifyAccepted(object):
 
     @Lazy
     def textTemplate(self):
-        retval = getMultiAdapter((self.context, self.request),
-                    name=self.textTemplateName)
+        retval = getMultiAdapter((self.context, self.request), name=self.textTemplateName)
         assert retval
         return retval
 
     @Lazy
     def htmlTemplate(self):
-        retval = getMultiAdapter((self.context, self.request),
-                    name=self.htmlTemplateName)
+        retval = getMultiAdapter((self.context, self.request), name=self.htmlTemplateName)
         assert retval
         return retval
 
@@ -56,8 +54,7 @@ class NotifyAccepted(object):
         html = self.htmlTemplate(userInfo=userInfo, adminInfo=adminInfo)
         ms = MessageSender(self.context, userInfo)
         ms.send_message(subject, text, html)
-        self.request.response.setHeader(to_ascii('Content-Type'),
-                                            self.oldContentType)
+        self.request.response.setHeader(b'Content-Type', self.oldContentType)
 
 
 class NotifyDeclined(NotifyAccepted):
