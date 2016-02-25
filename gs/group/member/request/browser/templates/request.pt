@@ -11,7 +11,7 @@
     </title>
   </head>
   <body>
-    <tal:block 
+    <tal:block
       define="errors view/errors; status view/status; widgets view/widgets"
       content="structure provider:groupserver.FormStatusMessage"
       metal:fill-slot="messages">&#160;</tal:block>
@@ -24,7 +24,7 @@
               class="screen-reader-text">Site homepage</span></a>
       </li>
       <li>
-        <a class="group" 
+        <a class="group"
            tal:attributes="href string:${view/groupInfo/relativeURL}/">
           <strong
             tal:content="view/groupInfo/name">This group</strong></a>
@@ -36,11 +36,11 @@
       <div id="request-membership-intro"
            i18n:translate="gs_group_membership_request_intro">
         <p>
-          To become a member of 
+          To become a member of
           <span class="group"
             tal:content="view/groupInfo/name">this group</span>
-          you must <strong>request</strong> membership from the 
-          administrator. 
+          you must <strong>request</strong> membership from the
+          administrator.
           To request membership write a message to the administrator
           explaining why you should become a member and click the
           <samp class="button">Request</samp> button.
@@ -56,12 +56,12 @@
         </tal:block>
         <p id="privacy"
           i18n:translate="gs_group_membership_request_privacy">
-          When you submit your request the administrator of 
+          When you submit your request the administrator of
           <span class="group"
             tal:content="view/groupInfo/name">this group</span> will
-          get an email containing 
+          get an email containing
           a link to your profile,
-          your email address, and 
+          your email address, and
           the message you wrote above.
         </p>
         <div class="buttons">
@@ -75,4 +75,3 @@
     </div><!--gs-group-member-request-->
   </body>
 </html>
-

@@ -12,7 +12,7 @@
     <li>The email address of the person making the request.</li>
     <li>A message from the person making the request, explaining why
       he or she wishes to join the group.</li>
-    <li>A link to the <cite class="page">Respond</cite> page for the 
+    <li>A link to the <cite class="page">Respond</cite> page for the
       group you administer.</li>
   </ul>
   <p>
@@ -22,7 +22,7 @@
     <li>Visit the <cite class="page">Respond</cite> page.
       The <cite class="page">Respond</cite> page lists all
       membership requests awaiting a response.</li>
-    <li>Select <samp class="radiobutton">Accept</samp> or 
+    <li>Select <samp class="radiobutton">Accept</samp> or
       <samp class="radiobutton">Decline</samp>
       for each request.</li>
     <li>Click the <samp class="button">Respond</samp> button.</li>
@@ -34,4 +34,3 @@
     be sent a message stating your decision.
   </p>
 </div><!--gs-group-member-request-respond-->
-
