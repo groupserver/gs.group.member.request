@@ -1,4 +1,6 @@
-<tal:block define="userInfo options/userInfo | view/loggedInUserInfo; adminInfo options/adminInfo | view/loggedInUserInfo;">Hello <tal:block replace="userInfo/name">Applicant</tal:block>,
+<tal:block
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  define="userInfo options/userInfo | view/loggedInUserInfo; adminInfo options/adminInfo | view/loggedInUserInfo;">Hello <tal:block replace="userInfo/name">Applicant</tal:block>,
 
 <tal:block
   define="m string:Your request to join ${view/groupInfo/name} has been declined."

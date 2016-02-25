@@ -1,0 +1,150 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2016-02-25 20:35+0000\n"
+"PO-Revision-Date: 2016-02-25 12:34-0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#. Default: "Request membership"
+#: ./browser/templates/request.pt:36
+msgid "request"
+msgstr "Request membership"
+
+#. Default: "Request to join ${groupName}"
+#: ./request.py:114
+msgid "request-admin-message-subject"
+msgstr "Request to join ${groupName}"
+
+#. Default: "Request"
+#: ./request.py:93
+msgid "request-button"
+msgstr "Request"
+
+#. Default: "There was an error:"
+#: ./request.py:138
+msgid "request-error"
+msgstr "There was an error:"
+
+#. Default: "<p>There were errors:</p>"
+#: ./request.py:140
+msgid "request-errors"
+msgstr "<p>There were errors:</p>"
+
+#. Default: "<p>You have requested membership of ${groupName}. You will be contacted by the group administator when your request is considered.</p>"
+#: ./request.py:107
+msgid "request-feedback"
+msgstr "<p>You have requested membership of ${groupName}. You will be contacted by the group administator when your request is considered.</p>"
+
+#. Default: "The email address that you want in the \"From\" line in the email you send."
+#: ./interfaces.py:24
+msgid "request-form-from-desc"
+msgstr "The email address that you want in the “From” line in the email you send."
+
+#. Default: "From"
+#: ./interfaces.py:23
+msgid "request-form-from-h"
+msgstr "From"
+
+#. Default: "The message you want to send to the administrator explaining why you should be a member of the group."
+#: ./interfaces.py:31
+msgid "request-form-message-desc"
+msgstr "The message you want to send to the administrator explaining why you should be a member of the group."
+
+#. Default: "Message"
+#: ./interfaces.py:30
+msgid "request-form-message-h"
+msgstr "Message"
+
+#. Default: "Request membership"
+#: ./request.py:33
+msgid "request-h"
+msgstr "Request membership"
+
+#. Default: "To become a member of ${groupName} you must <b>request</b> membership from the administrator. To request membership write a message to the administrator explaining why you should become a member and click the <samp class=\"button\">Request</samp> button. You will be contacted when the administrator has considered your request."
+#: ./browser/templates/request.pt:43
+msgid "request-intro"
+msgstr "To become a member of ${groupName} you must <b>request</b> membership from the administrator. To request membership write a message to the administrator explaining why you should become a member and click the <samp class=\"button\">Request</samp> button. You will be contacted when the administrator has considered your request."
+
+#. Default: "Hello,\n\nI would like to join ${groupName}. I think I should be allowed to become a member because..."
+#: ./request.py:58
+msgid "request-message-default"
+msgstr ""
+"Hello,\n"
+"\n"
+"I would like to join ${groupName}. I think I should\n"
+"be allowed to become a member because..."
+
+#. Default: "When you submit your request the administrator of ${groupName} will get an email containing a link to your profile, your email address, and the message you wrote above."
+#: ./browser/templates/request.pt:63
+msgid "request-privacy"
+msgstr "When you submit your request the administrator of ${groupName} will get an email containing a link to your profile, your email address, and the message you wrote above."
+
+#. Default: "Request membership: ${groupName}: ${siteName}"
+#: ./browser/templates/request.pt:13
+msgid "request-title"
+msgstr "Request membership: ${groupName}: ${siteName}"
+
+#. Default: "Respond"
+#: ./browser/templates/respond.pt:46
+msgid "respond"
+msgstr "Respond"
+
+#. Default: "${icon} <b>Membership request</b>"
+#: ./browser/templates/admin_list.pt:7
+msgid "respond-admin-link"
+msgstr "${icon} <b>Membership request</b>"
+
+#. Default: "Respond to membership requests"
+#: ./browser/templates/respond.pt:51
+msgid "respond-h"
+msgstr "Respond to membership requests"
+
+#. Default: "To respond to the requests select <samp>Accept</samp> or <samp>Decline</samp> for each person below and click the <samp class=\"button\">Respond</samp> button."
+#: ./browser/templates/respond.pt:56
+msgid "respond-intro-multiple"
+msgstr "To respond to the requests select <samp>Accept</samp> or <samp>Decline</samp> for each person below and click the <samp class=\"button\">Respond</samp> button."
+
+#. Default: "To respond to the request select <samp>Accept</samp> or <samp>Decline</samp> and click the <samp class=\"button\">Respond</samp> button."
+#: ./browser/templates/respond.pt:62
+msgid "respond-intro-single"
+msgstr "To respond to the request select <samp>Accept</samp> or <samp>Decline</samp> and click the <samp class=\"button\">Respond</samp> button."
+
+#. Default: "Accept the request to join ${groupName}"
+#: ./browser/templates/respond.pt:110
+msgid "respond-request-accept"
+msgstr "Accept the request to join ${groupName}"
+
+#. Default: "Decline the request to join ${groupName}"
+#: ./browser/templates/respond.pt:125
+msgid "respond-request-decline"
+msgstr "Decline the request to join ${groupName}"
+
+#. Default: "<b>From:</b> ${email}"
+#: ./browser/templates/respond.pt:86
+msgid "respond-request-email-from"
+msgstr "<b>From:</b> ${email}"
+
+#. Default: "There are no requests to join ${groupName}."
+#: ./browser/templates/respond.pt:142
+msgid "respond-request-none"
+msgstr "There are no requests to join ${groupName}."
+
+#. Default: "${userName} wrote the following message when applying to join ${groupName}."
+#: ./browser/templates/respond.pt:80
+msgid "respond-request-person"
+msgstr "${userName} wrote the following message when applying to join ${groupName}."
+
+#. Default: "Respond to membership requests: ${groupName}: ${siteName}"
+#: ./browser/templates/respond.pt:12
+msgid "respond-title"
+msgstr "Respond to membership requests: ${groupName}: ${siteName}"
+

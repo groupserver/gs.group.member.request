@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!-- Copyright © 2013 OnlineGroups.net and Contributors. -->
+<!-- Copyright © 2013, 2016 OnlineGroups.net and Contributors. -->
 <!-- All Rights Reserved. -->
 
 <!-- This software is subject to the provisions of the Zope Public -->
@@ -12,9 +12,11 @@
 <!-- FITNESS FOR A PARTICULAR PURPOSE. -->
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-           i18n_domain="groupserver">
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="gs.group.member.request">
 
   <include package="zope.viewlet" file="meta.zcml" />
+  <i18n:registerTranslations directory="locales" />
 
   <!-- The Request page -->
   <browser:page

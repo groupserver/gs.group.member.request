@@ -14,7 +14,7 @@
                      adminInfo options/adminInfo | view/loggedInUserInfo;">
       <h2>Membership declined</h2>
       <p>
-        Hi <span class="fn" tal:content="userInfo/name">Applicant</span>,
+        Hello <span class="fn" tal:content="userInfo/name">Applicant</span>,
       </p>
       <p>
         Your request to join

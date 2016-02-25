@@ -16,8 +16,6 @@ from __future__ import unicode_literals
 from cgi import escape
 from zope.component import createObject
 from zope.cachedescriptors.property import Lazy
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('groupserver')
 from gs.content.email.base import GroupEmail, TextMixin
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ############################################################################
 #
-# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014, 2016 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -16,15 +16,12 @@ from __future__ import absolute_import, unicode_literals
 from textwrap import TextWrapper
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('groupserver')
 from gs.group.base import GroupPage
 from gs.profile.email.base import EmailUser
 from .acceptor import Acceptor
 from .audit import ResponseAuditor, ACCEPT, DECLINE
 from .notify import NotifyAccepted, NotifyDeclined
 from .queries import RequestQuery
-utf8 = 'utf-8'
 
 
 class Respond(GroupPage):
@@ -96,15 +93,13 @@ class Respond(GroupPage):
                     notifier.notify(userInfo, self.adminInfo)
                     auditor.info(ACCEPT, userInfo)
 
-            declined = [k.split('-decline')[0] for k in responses
-                        if '-decline' in k]
+            declined = [k.split('-decline')[0] for k in responses if '-decline' in k]
             for d in declined:
                 assert d not in accepted
             if declined:
                 notifier = NotifyDeclined(self.context, self.request)
                 for uid in declined:
-                    userInfo = createObject('groupserver.UserFromId',
-                                            self.context, uid)
+                    userInfo = createObject('groupserver.UserFromId', self.context, uid)
                     m = m + ('<li>%s</li>\n' % acceptor.decline(userInfo))
                     auditor.info(DECLINE, userInfo)
                     notifier.notify(userInfo, self.adminInfo)
@@ -131,8 +126,7 @@ class Request(object):
 
     @Lazy
     def userInfo(self):
-        retval = createObject('groupserver.UserFromId', self.context,
-                              self.userId)
+        retval = createObject('groupserver.UserFromId', self.context, self.userId)
         assert not(retval.anonymous)
         return retval
 

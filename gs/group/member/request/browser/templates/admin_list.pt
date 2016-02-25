@@ -1,5 +1,10 @@
-<li id="gs-group-messages-request-respond-link">
+<li id="gs-group-messages-request-respond-link"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="gs.group.member.request">
   <a tal:attributes="href string:${view/groupInfo/relativeURL}/respond.html"
-     href="respond.html"><span class="badge">!</span>
-     <strong>Membership request!</strong></a>
+     href="respond.html"
+     i18n:translate="respond-admin-link"><span i18n:name="icon"
+                                               class="badge">!</span>
+     <b>Membership request</b></a>
 </li>

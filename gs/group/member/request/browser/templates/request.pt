@@ -3,11 +3,15 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="context/@@groupserver_layout/page"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n_domain="groupserver">
+      i18n:domain="gs.group.member.request">
   <head>
-    <title metal:fill-slot="title"><span tal:replace="view/label"/>:
-      <span tal:replace="view/groupInfo/name">This group</span>:
-      <span tal:replace="view/siteInfo/name">This site</span>
+    <title metal:fill-slot="title"
+           i18n:translate="request-title">
+      Request membership:
+      <span i18n:name="groupName"
+            tal:replace="view/groupInfo/name">This group</span>:
+      <span i18n:name="siteName"
+            tal:replace="view/siteInfo/name">This site</span>
     </title>
   </head>
   <body>
@@ -29,17 +33,16 @@
           <strong
             tal:content="view/groupInfo/name">This group</strong></a>
       </li>
-      <li>Request membership</li>
+      <li i18n:translate="request">Request membership</li>
     </ul>
     <div id="gs-group-member-request" metal:fill-slot="body">
       <h1 tal:content="view/label">Request Membership</h1>
-      <div id="request-membership-intro"
-           i18n:translate="gs_group_membership_request_intro">
-        <p>
+      <div id="request-membership-intro">
+        <p class="intro muted" i18n:translate="request-intro">
           To become a member of
-          <span class="group"
+          <span class="group" i18n:name="groupName"
             tal:content="view/groupInfo/name">this group</span>
-          you must <strong>request</strong> membership from the
+          you must <b>request</b> membership from the
           administrator.
           To request membership write a message to the administrator
           explaining why you should become a member and click the
@@ -55,14 +58,12 @@
           <tal:block replace="structure provider:groupserver.FormWidgets"/>
         </tal:block>
         <p id="privacy"
-          i18n:translate="gs_group_membership_request_privacy">
+          i18n:translate="request-privacy">
           When you submit your request the administrator of
-          <span class="group"
-            tal:content="view/groupInfo/name">this group</span> will
-          get an email containing
-          a link to your profile,
-          your email address, and
-          the message you wrote above.
+          <span class="group" i18n:name="groupName"
+                tal:content="view/groupInfo/name">this group</span>
+          will get an email containing a link to your profile,
+          your email address, and the message you wrote above.
         </p>
         <div class="buttons">
           <tal:block define="action view/actions/form.actions.request">

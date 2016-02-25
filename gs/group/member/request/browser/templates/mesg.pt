@@ -1,4 +1,4 @@
-<tal:block>Hi <tal:block replace="view/adminInfo/name">there</tal:block>,
+<tal:block xmlns:tal="http://xml.zope.org/namespaces/tal">Hello <tal:block replace="view/adminInfo/name">there</tal:block>,
 
 <tal:block define="m string:${view/userInfo/name} has requested membership of ${view/groupInfo/name}. ${view/userInfo/name} wrote the following message as part of the request:"
            replace="python:view.fill(m)">m</tal:block>

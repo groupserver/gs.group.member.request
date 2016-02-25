@@ -17,7 +17,6 @@ from zope.component import createObject, getMultiAdapter
 from zope.cachedescriptors.property import Lazy
 from gs.core import to_ascii
 from gs.profile.notify.sender import MessageSender
-UTF8 = 'utf-8'
 
 
 class NotifyAccepted(object):
@@ -49,7 +48,7 @@ class NotifyAccepted(object):
         return retval
 
     def notify(self, userInfo, adminInfo):
-        subject = ('Welcome to %s' % (self.groupInfo.name).encode(UTF8))
+        subject = 'Welcome to %s' % (self.groupInfo.name)
         text = self.textTemplate(userInfo=userInfo, adminInfo=adminInfo)
         html = self.htmlTemplate(userInfo=userInfo, adminInfo=adminInfo)
         ms = MessageSender(self.context, userInfo)

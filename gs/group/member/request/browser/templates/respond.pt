@@ -3,11 +3,14 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="context/@@groupserver_layout/page"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n_domain="groupserver">
+      i18n:domain="gs.group.member.request">
   <head>
-    <title metal:fill-slot="title">Respond to membership requests:
-      <span tal:replace="view/groupInfo/name">This group</span>:
-      <span tal:replace="view/siteInfo/name">This site</span>
+    <title metal:fill-slot="title" i18n:translate="respond-title">
+      Respond to membership requests:
+      <span i18n:name="groupName"
+            tal:replace="view/groupInfo/name">This group</span>:
+      <span i18n:name="siteName"
+            tal:replace="view/siteInfo/name">This site</span>
     </title>
   </head>
   <body>
@@ -40,24 +43,26 @@
           <strong
             tal:content="view/groupInfo/name">This group</strong></a>
       </li>
-      <li>Respond</li>
+      <li i18n:translate="respond">Respond</li>
     </ul>
     <div metal:fill-slot="body" id="gs-group-member-request-respond"
       tal:define="ctx view/context;
                   md python:modules['Products.XWFCore.XWFUtils'].munge_date;">
-      <h1>Respond to membership requests</h1>
+      <h1 i18n:translate="respond-h">Respond to membership requests</h1>
       <form id="action"
         tal:condition="view/requests"
         enctype="multipart/form-data" method="post" action="."
         tal:attributes="action request/URL">
-        <p tal:condition="python:len(view.requests)>1">
-          To respond to the requests select <samp>Accept</samp> or
-          <samp>Decline</samp> for each person below and click the
-          <samp class="button">Respond</samp> button.
+        <p tal:condition="python:len(view.requests)>1" class="intro muted"
+           i18n:translate="respond-intro-multiple">
+          To respond to the requests select <samp>Accept</samp>
+          or <samp>Decline</samp> for each person below and click
+          the <samp class="button">Respond</samp> button.
         </p>
-        <p tal:condition="python:len(view.requests)==1">
-          To respond to the request select <samp>Accept</samp>
-          or <samp>Decline</samp> and click the <samp
+        <p tal:condition="python:len(view.requests)==1" class="intro muted"
+           i18n:translate="respond-intro-single">
+          To respond to the request select <samp>Accept</samp> or
+          <samp>Decline</samp> and click the <samp
           class="button">Respond</samp> button.
         </p>
         <div class="user-request"
@@ -67,18 +72,19 @@
             tal:content="request/userInfo/name">
             The Applicant
           </h2>
-          <p>
-            <a class="fn" url="#"
+          <p i18n:translate="respond-request-person">
+            <a class="fn" url="#" i18n:name="userName"
               tal:attributes="href request/userInfo/url"
               tal:content="request/userInfo/name">The applicant</a>
               wrote the following message when applying to join
-              <span class="group"
+              <span class="group" i18n:name="groupName"
                 tal:content="view/groupInfo/name">this group</span>.
           </p>
           <blockquote>
-            <p>
-              <strong>From:</strong>
-              <a tal:attributes="href string:mailto:${request/email}"
+            <p i18n:translate="respond-request-email-from">
+              <b>From:</b>
+              <a i18n:name="email"
+                 tal:attributes="href string:mailto:${request/email}"
                 href="#"><code
                     tal:content="request/email"
                     class="email">email</code></a>
@@ -98,8 +104,10 @@
               <label class="radioLabel" id="foo-accept-label"
                 for="foo-accept"
                 tal:attributes="id string:${uid}-accept-label;
-                  for string:${uid}-accept">Accept the request to join
-                  <span class="group"
+                                for string:${uid}-accept"
+                i18n:translate="respond-request-accept">Accept the request to
+              join
+                  <span class="group" i18n:name="groupName"
                     tal:content="view/groupInfo/name">this group</span></label>
             </div>
             <div class="radioItem">
@@ -111,8 +119,10 @@
               <label class="radioLabel" id="foo-decline-label"
                 for="foo-decline"
                 tal:attributes="id string:${uid}-decline-label;
-                  for string:${uid}-decline">Decline the request to join
-                  <span class="group"
+                                for string:${uid}-decline"
+                i18n:translate="respond-request-decline">Decline the request
+              to join
+                  <span class="group" i18n:name="groupName"
                     tal:content="view/groupInfo/name">this group</span></label>
             </div>
           </fieldset>
@@ -121,13 +131,15 @@
         <div class="buttons">
           <div class="formelementbutton">
             <input class="button btn" type="submit" value="Respond"
+                   i18n:attributes="value respond;"
                    id="respond-button" name="respond-button"/>
           </div>
         </div><!--buttons-->
       </form><!--current-->
-      <p tal:condition="not:view/requests">
+      <p tal:condition="not:view/requests"
+         i18n:translate="respond-request-none">
         There are no requests to join
-        <a class="group"
+        <a class="group" i18n:name="groupName"
           tal:attributes="href view/groupInfo/relativeURL"
           tal:content="view/groupInfo/name">this group</a>.
       </p>

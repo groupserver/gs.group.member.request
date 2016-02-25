@@ -16,8 +16,6 @@ from __future__ import absolute_import, unicode_literals, print_function
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject, getMultiAdapter
 from zope.formlib import form
-from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('groupserver')
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from gs.core import to_id, to_ascii
 from gs.group.base import GroupForm
@@ -27,18 +25,19 @@ from gs.profile.email.base.emailuser import EmailUser
 from .interfaces import IGSRequestMembership
 from .queries import RequestQuery
 from .audit import RequestAuditor
+from . import GSMessageFactory as _
 
 
 class RequestForm(GroupForm):
     form_fields = form.Fields(IGSRequestMembership)
-    label = _('Request membership')
+    label = _('request-h', 'Request membership')
     pageTemplateFileName = 'browser/templates/request.pt'
     template = ZopeTwoPageTemplateFile(pageTemplateFileName)
 
     def __init__(self, group, request):
         super(RequestForm, self).__init__(group, request)
         h = request.response.getHeader('Content-Type')
-        self.oldContentType = to_ascii(h if h else b'text/html')
+        self.oldContentType = to_ascii(h if h else 'text/html')
 
     @Lazy
     def userInfo(self):
@@ -56,9 +55,10 @@ class RequestForm(GroupForm):
         return retval
 
     def setUpWidgets(self, ignore_request=False):
-        message = _('Hi there!\n\nI would like to join ') +\
-            self.groupInfo.name +\
-            _('. I think I should be allowed to become a member because...')
+        message = _('request-message-default',
+                    'Hello,\n\nI would like to join ${groupName}. I think I should be allowed to '
+                    'become a member because...',
+                    mapping={'groupName': self.groupInfo.name})
 
         if self.userInfo.anonymous:
             fromAddr = ''
@@ -90,7 +90,7 @@ class RequestForm(GroupForm):
                     raise ValueError(msg)
         return retval
 
-    @form.action(label=_('Request'), failure='handle_failure')
+    @form.action(name='request', label=_('request-button', 'Request'), failure='handle_failure')
     def handle_request(self, action, data):
         self.status = ''
         requestId = self.create_request_id(data['fromAddress'], data['message'])
@@ -104,13 +104,15 @@ class RequestForm(GroupForm):
         ra.info(self.userInfo)
 
         l = '<a href="%s">%s</a>. ' % (self.groupInfo.relativeURL, self.groupInfo.name)
-        self.status = _('<p>You have requested membership of ') + l +\
-            _('You will be contacted by the group administator when '
-                'your request is considered.</p>')
+        self.status = _('request-feedback',
+                        '<p>You have requested membership of ${groupName}. You will be '
+                        'contacted by the group administator when your request is considered.</p>',
+                        mapping={'groupName': l})
 
     def send_message(self, fromAddress, adminInfo, message):
         sender = MessageSender(self.context, adminInfo)
-        subject = _('Request to join ') + self.groupInfo.name
+        subject = _('request-admin-message-subject',  'Request to join ${groupName}',
+                    mapping={'groupName': self.groupInfo.name})
         newRequest = self.request
         newRequest.form['userId'] = self.userInfo.id
         newRequest.form['email'] = fromAddress
@@ -121,7 +123,7 @@ class RequestForm(GroupForm):
         html = getMultiAdapter((self.context, newRequest), name="request_message.html")()
         sender.send_message(subject, txt, html, fromAddress)
 
-        self.request.response.setHeader(to_ascii('Content-Type'), self.oldContentType)
+        self.request.response.setHeader(b'Content-Type', self.oldContentType)
 
     def create_request_id(self, fromAddress, message):
         istr = fromAddress + message + self.userInfo.id + \
@@ -133,6 +135,6 @@ class RequestForm(GroupForm):
 
     def handle_failure(self, action, data, errors):
         if len(errors) == 1:
-            self.status = _('There was an error:')
+            self.status = _('request-error', 'There was an error:')
         else:
-            self.status = _('<p>There were errors:</p>')
+            self.status = _('request-errors', '<p>There were errors:</p>')
