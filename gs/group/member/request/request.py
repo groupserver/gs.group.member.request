@@ -16,6 +16,7 @@ from __future__ import absolute_import, unicode_literals, print_function
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject, getMultiAdapter
 from zope.formlib import form
+from zope.i18n import translate
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from gs.core import to_id, to_ascii
 from gs.group.base import GroupForm
@@ -70,7 +71,7 @@ class RequestForm(GroupForm):
             else:
                 fromAddr = ''
 
-        data = {'message': message, 'fromAddress': fromAddr}
+        data = {'message': translate(message), 'fromAddress': fromAddr}
         self.widgets = form.setUpWidgets(
             self.form_fields, self.prefix, self.context,
             self.request, form=self, data=data,
