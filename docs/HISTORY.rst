@@ -1,6 +1,16 @@
 Changelog
 =========
 
+2.3.0 (2016-02-25)
+------------------
+
+* Adding internationalisation support
+* Following the changes to `gs.group.member.base`_
+* Adding unit tests
+
+.. _gs.group.member.base:
+   https://github.com/groupserver/gs.group.member.base
+
 2.2.3 (2015-09-21)
 ------------------
 
