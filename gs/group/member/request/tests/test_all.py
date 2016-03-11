@@ -16,7 +16,8 @@ from __future__ import absolute_import, unicode_literals
 from unittest import TestSuite, main as unittest_main
 from gs.group.member.request.tests.adminlist import TestRequestMembershipListViewlet
 from gs.group.member.request.tests.acceptor import TestAcceptor
-testCases = (TestRequestMembershipListViewlet, TestAcceptor, )
+from gs.group.member.request.tests.request import TestRequestForm
+testCases = (TestRequestMembershipListViewlet, TestAcceptor, TestRequestForm, )
 
 
 def load_tests(loader, tests, pattern):
