@@ -13,6 +13,7 @@
 #
 ##############################################################################
 from __future__ import absolute_import, unicode_literals, print_function
+from logging import getLogger
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject, getMultiAdapter
 from zope.formlib import form
@@ -27,6 +28,8 @@ from .interfaces import IGSRequestMembership
 from .queries import RequestQuery
 from .audit import RequestAuditor
 from . import GSMessageFactory as _
+
+log = getLogger('gs.group.member.request.request')
 
 
 class RequestForm(GroupForm):
@@ -122,8 +125,14 @@ class RequestForm(GroupForm):
 
         txt = getMultiAdapter((self.context, newRequest), name="request_message.txt")()
         html = getMultiAdapter((self.context, newRequest), name="request_message.html")()
-        sender.send_message(subject, txt, html, fromAddress)
-
+        try:
+            sender.send_message(subject, txt, html, fromAddress)
+        except ValueError:  # No valid email address
+            m = 'Cannot send a "Request to join" notification to the administrator %s (%s) for '\
+                'the group %s (%s) on %s (%s) because they lack a verified email address. '\
+                'Skipping the notification.'
+            log.warn(m, adminInfo.name, adminInfo.id, self.groupInfo.name,
+                     self.groupInfo.id, self.siteInfo.name, self.siteInfo.id)
         self.request.response.setHeader(b'Content-Type', self.oldContentType)
 
     def create_request_id(self, fromAddress, message):
