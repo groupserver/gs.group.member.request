@@ -1,11 +1,13 @@
 Changelog
 =========
 
-2.3.0 (2016-02-25)
+2.3.0 (2016-03-11)
 ------------------
 
 * Adding internationalisation support
 * Following the changes to `gs.group.member.base`_
+* Allowing the request-membership page to handle administrators
+  that lack a verified email address
 * Adding unit tests
 
 .. _gs.group.member.base:
