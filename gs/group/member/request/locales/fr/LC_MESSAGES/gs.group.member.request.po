@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Michael JasonSmith <mpj17@ldots.org>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: gs.group.member.request\n"
 "POT-Creation-Date: 2016-02-25 20:35+0000\n"
-"PO-Revision-Date: 2016-02-25 20:42+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-07-13 01:00+0000\n"
+"Last-Translator: Michael JasonSmith <mpj17@ldots.org>\n"
 "Language-Team: French (http://www.transifex.com/groupserver/gs-group-member-request/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,12 +36,12 @@ msgstr ""
 #. Default: "There was an error:"
 #: ./request.py:138
 msgid "request-error"
-msgstr ""
+msgstr "Une erreur est survenue"
 
 #. Default: "<p>There were errors:</p>"
 #: ./request.py:140
 msgid "request-errors"
-msgstr ""
+msgstr "<p>Des erreurs sont survenues :</p>"
 
 #. Default: "<p>You have requested membership of ${groupName}. You will be
 #. contacted by the group administator when your request is considered.</p>"
@@ -57,7 +58,7 @@ msgstr ""
 #. Default: "From"
 #: ./interfaces.py:23
 msgid "request-form-from-h"
-msgstr ""
+msgstr "De"
 
 #. Default: "The message you want to send to the administrator explaining why
 #. you should be a member of the group."
@@ -68,7 +69,7 @@ msgstr ""
 #. Default: "Message"
 #: ./interfaces.py:30
 msgid "request-form-message-h"
-msgstr ""
+msgstr "Message"
 
 #. Default: "Request membership"
 #: ./request.py:33

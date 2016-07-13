@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Stephan G. Blendinger <stephanblendinger@me.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: gs.group.member.request\n"
 "POT-Creation-Date: 2016-02-25 20:35+0000\n"
-"PO-Revision-Date: 2016-02-25 20:42+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-07-11 12:48+0000\n"
+"Last-Translator: Stephan G. Blendinger <stephanblendinger@me.com>\n"
 "Language-Team: German (http://www.transifex.com/groupserver/gs-group-member-request/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,60 +21,60 @@ msgstr ""
 #. Default: "Request membership"
 #: ./browser/templates/request.pt:36
 msgid "request"
-msgstr ""
+msgstr "Beitrittsanfrage stellen"
 
 #. Default: "Request to join ${groupName}"
 #: ./request.py:114
 msgid "request-admin-message-subject"
-msgstr ""
+msgstr "Mitgliedschaft für die Gruppe ${groupName} beantragen"
 
 #. Default: "Request"
 #: ./request.py:93
 msgid "request-button"
-msgstr ""
+msgstr "Beantragen"
 
 #. Default: "There was an error:"
 #: ./request.py:138
 msgid "request-error"
-msgstr ""
+msgstr "Es ist ein Fehler aufgetreten:"
 
 #. Default: "<p>There were errors:</p>"
 #: ./request.py:140
 msgid "request-errors"
-msgstr ""
+msgstr "<p>Es sind Fehler aufgetreten:</p>"
 
 #. Default: "<p>You have requested membership of ${groupName}. You will be
 #. contacted by the group administator when your request is considered.</p>"
 #: ./request.py:107
 msgid "request-feedback"
-msgstr ""
+msgstr "<p>Sie haben die Mitgliedschaft in der Gruppe ${groupName} beantragt. Sie werden vom Administrator der Gruppe kontaktiert, wenn Ihre Anfrage bearbeitet wurde.</p>"
 
 #. Default: "The email address that you want in the \"From\" line in the email
 #. you send."
 #: ./interfaces.py:24
 msgid "request-form-from-desc"
-msgstr ""
+msgstr "Die E-Mail-Adresse, welche im \"Von\"-Feld Ihrer E-Mail stehen soll, die Sie versenden."
 
 #. Default: "From"
 #: ./interfaces.py:23
 msgid "request-form-from-h"
-msgstr ""
+msgstr "Von"
 
 #. Default: "The message you want to send to the administrator explaining why
 #. you should be a member of the group."
 #: ./interfaces.py:31
 msgid "request-form-message-desc"
-msgstr ""
+msgstr "Die Nachricht, die Sie dem Administrator senden möchten. Beschreiben Sie hier, warum Sie Mitglied dieser Gruppe werden wollen."
 
 #. Default: "Message"
 #: ./interfaces.py:30
 msgid "request-form-message-h"
-msgstr ""
+msgstr "Nachricht"
 
 #. Default: "Request membership"
 #: ./request.py:33
 msgid "request-h"
-msgstr ""
+msgstr "Beitrittsanfrage stellen"
 
 #. Default: "To become a member of ${groupName} you must <b>request</b>
 #. membership from the administrator. To request membership write a message to
@@ -82,82 +83,82 @@ msgstr ""
 #. the administrator has considered your request."
 #: ./browser/templates/request.pt:43
 msgid "request-intro"
-msgstr ""
+msgstr "Um Mitglied von ${groupName} zu werden, müssen Sie die Mitgliedschaft beim Administrator der Gruppe <b>beantragen</b>. Um eine Mitgliedsanfrage zu stellen, schreiben Sie eine Nachricht an den Administrator der Gruppe. Erklären Sie in dieser Nachricht, warum Sie Mitglied der Gruppe werden wollen und klicken anschließend bitte auf den <samp class=\"button\">Beantragen</samp> Button. Sie werden benachrichtigt sobald der Administrator ihre Anfrage bearbeitet hat."
 
 #. Default: "Hello,\n\nI would like to join ${groupName}. I think I should be
 #. allowed to become a member because..."
 #: ./request.py:58
 msgid "request-message-default"
-msgstr ""
+msgstr "Hallo,\n\nIch möchten der Gruppe ${groupName} beitreten. Ich möchte gerne \ndieser Gruppe beitreten, weil ..."
 
 #. Default: "When you submit your request the administrator of ${groupName}
 #. will get an email containing a link to your profile, your email address,
 #. and the message you wrote above."
 #: ./browser/templates/request.pt:63
 msgid "request-privacy"
-msgstr ""
+msgstr "Wenn Sie diese Anfrage absenden, erhält der Gruppen-Administratorr von ${groupName} eine E-Mail mit einem Link zu Ihrem Profil, Ihre E-Mail-Adresse und die Nachricht, die Sie geschrieben haben. "
 
 #. Default: "Request membership: ${groupName}: ${siteName}"
 #: ./browser/templates/request.pt:13
 msgid "request-title"
-msgstr ""
+msgstr "Mitgliedschaft beantragen: ${groupName}: ${siteName}"
 
 #. Default: "Respond"
 #: ./browser/templates/respond.pt:46
 msgid "respond"
-msgstr ""
+msgstr "Antworten"
 
 #. Default: "${icon} <b>Membership request</b>"
 #: ./browser/templates/admin_list.pt:7
 msgid "respond-admin-link"
-msgstr ""
+msgstr "${icon} <b>Mitgliedschaftsanfrage</b>"
 
 #. Default: "Respond to membership requests"
 #: ./browser/templates/respond.pt:51
 msgid "respond-h"
-msgstr ""
+msgstr "Antwort auf die Mitgliedschaftsanfrage"
 
 #. Default: "To respond to the requests select <samp>Accept</samp> or
 #. <samp>Decline</samp> for each person below and click the <samp
 #. class=\"button\">Respond</samp> button."
 #: ./browser/templates/respond.pt:56
 msgid "respond-intro-multiple"
-msgstr ""
+msgstr "Um die Anfragen zu beantworten, wählen Sie <samp>Akzeptieren</samp> oder <samp>Ablehnen</samp> für jede der unten aufgeführten Personen und klicken Sie auf den <samp class=\"button\">Antworten</samp> Button."
 
 #. Default: "To respond to the request select <samp>Accept</samp> or
 #. <samp>Decline</samp> and click the <samp class=\"button\">Respond</samp>
 #. button."
 #: ./browser/templates/respond.pt:62
 msgid "respond-intro-single"
-msgstr ""
+msgstr "Um die Anfrage zu beantworten, wählen Sie <samp>Akzeptieren</samp> oder <samp>Ablehnen</samp> und klicken Sie auf den <samp class=\"button\">Antworten</samp> Button."
 
 #. Default: "Accept the request to join ${groupName}"
 #: ./browser/templates/respond.pt:110
 msgid "respond-request-accept"
-msgstr ""
+msgstr "Beitrittsanfrage zu ${groupName} akzeptieren"
 
 #. Default: "Decline the request to join ${groupName}"
 #: ./browser/templates/respond.pt:125
 msgid "respond-request-decline"
-msgstr ""
+msgstr "Beitrittsanfrage zu ${groupName} ablehnen"
 
 #. Default: "<b>From:</b> ${email}"
 #: ./browser/templates/respond.pt:86
 msgid "respond-request-email-from"
-msgstr ""
+msgstr "<b>Von:</b> ${email}"
 
 #. Default: "There are no requests to join ${groupName}."
 #: ./browser/templates/respond.pt:142
 msgid "respond-request-none"
-msgstr ""
+msgstr "Es sind keine Beitrittsanfragen ${groupName} vorhanden."
 
 #. Default: "${userName} wrote the following message when applying to join
 #. ${groupName}."
 #: ./browser/templates/respond.pt:80
 msgid "respond-request-person"
-msgstr ""
+msgstr "${userName} hat folgende Nachricht im Zusammenhang mit seiner Beitrittsanfrage zu ${groupName} verfasst."
 
 #. Default: "Respond to membership requests: ${groupName}: ${siteName}"
 #: ./browser/templates/respond.pt:12
 msgid "respond-title"
-msgstr ""
+msgstr "Antwort auf Beitrittsanfrage: ${groupName}: ${siteName}"
